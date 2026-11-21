@@ -1,1 +1,371 @@
 
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#176b55">
+<title>Risen Education Platform</title>
+<link id="favicon" rel="icon">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+<style>
+@font-face{
+ font-family:Jameel;
+ src:url("https://cdn.jsdelivr.net/gh/tariq-abdullah/urdu-web-font-CDN/JameelNooriNastaleeq.woff");
+}
+*{box-sizing:border-box}
+body{margin:0;background:#eef3f2;color:#172033;font-family:Jameel,Arial,sans-serif}
+body.en{direction:ltr;font-family:Arial,sans-serif}
+header{background:linear-gradient(135deg,#176b55,#083d32);color:white;text-align:center;padding:20px}
+header img{width:85px;height:85px;object-fit:contain;border-radius:50%;background:#ffffff20;padding:5px}
+header h1{margin:8px 0}
+nav{display:flex;gap:7px;overflow:auto;padding:10px;background:#dcebe4}
+button{border:0;background:#176b55;color:white;padding:11px 14px;border-radius:9px;font-family:inherit;font-size:16px;cursor:pointer}
+nav button{white-space:nowrap}
+button.gray{background:#475569}
+button.red{background:#dc2626}
+button.light{background:#e2e8f0;color:#172033}
+main{max-width:1100px;margin:auto;padding:12px}
+.panel{background:white;padding:16px;border-radius:14px;margin-bottom:14px;box-shadow:0 2px 8px #00000008}
+h2{color:#176b55}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+input,select,textarea{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:9px;font-family:inherit;font-size:16px;margin:5px 0}
+textarea{min-height:100px}
+label{display:block;margin-top:7px}
+.page{position:relative;background:white;padding:25px;margin:12px 0;border:1px solid #ddd;overflow:hidden;min-height:400px}
+.watermark{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:380px;height:380px;max-width:80%;object-fit:contain;opacity:.065;z-index:0;pointer-events:none}
+.pageContent{position:relative;z-index:1}
+.page h2{text-align:center}
+.page p,.page li{line-height:2.2}
+.hidden{display:none!important}
+.small{color:#64748b;font-size:14px}
+footer{text-align:center;padding:20px;color:#64748b}
+@media print{
+ body{background:white}
+ header,nav,.noPrint,main>.panel{display:none!important}
+ main{padding:0;margin:0}
+ .page{border:0;margin:0;padding:15mm;min-height:270mm;page-break-after:always}
+ .watermark{opacity:.075!important;width:420px;height:420px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<img id="schoolLogo" alt="School Logo">
+<h1 id="schoolName">The Risen High School</h1>
+<p>Risen Education & Study Platform</p>
+</header>
+
+<div class="noPrint" style="padding:10px;text-align:center;background:white">
+<button class="gray" onclick="toggleLanguage()" id="langBtn">English</button>
+<button class="light" onclick="window.print()">Print / PDF</button>
+</div>
+
+<nav class="noPrint">
+<button onclick="tab('home',this)" data-ur="ہوم" data-en="Home">ہوم</button>
+<button onclick="tab('books',this)" data-ur="کتاب" data-en="Book">کتاب</button>
+<button onclick="tab('study',this)" data-ur="نوٹس و سوالات" data-en="Notes & Questions">نوٹس و سوالات</button>
+<button onclick="tab('scheme',this)" data-ur="پیئرنگ اسکیم" data-en="Pairing Scheme">پیئرنگ اسکیم</button>
+<button onclick="tab('paper',this)" data-ur="پیپر میکر" data-en="Paper Maker">پیپر میکر</button>
+<button onclick="tab('omr',this)" data-ur="ببل شیٹ" data-en="Bubble Sheet">ببل شیٹ</button>
+</nav>
+
+<main>
+
+<section id="home" class="tab">
+<div class="panel">
+<h2>Risen Education Platform</h2>
+<p>Punjab Classes Playgroup to 12th | Study Material | Papers | Books</p>
+<h3>School Logo</h3>
+<p>اپنا لوگو اپلوڈ کریں۔ یہی لوگو ایپ آئیکن اور Watermark دونوں میں استعمال ہوگا۔</p>
+<input type="file" id="logoFile" accept="image/*">
+<button onclick="uploadLogo()">Upload Logo</button>
+<button class="red" onclick="deleteLogo()">Remove Logo</button>
+<p class="small">لوگو اپلوڈ کرنے کے بعد Save Logo دبائیں۔</p>
+<button onclick="saveLogo()">Save Logo</button>
+</div>
+
+<div class="panel">
+<h2>Class & Board</h2>
+<div class="grid">
+<div><label>Class</label><select id="class"></select></div>
+<div><label>Board</label>
+<select id="board">
+<option>BISE Lahore</option><option>BISE Gujranwala</option>
+<option>BISE Faisalabad</option><option>BISE Multan</option>
+<option>BISE Rawalpindi</option><option>BISE Sargodha</option>
+<option>BISE Bahawalpur</option><option>BISE Sahiwal</option>
+<option>BISE D.G. Khan</option>
+</select></div>
+<div><label>Subject</label><input id="subject" placeholder="Subject Name"></div>
+<div><label>Book / Publisher</label><input id="publisher" placeholder="Book Name"></div>
+</div>
+</div>
+</section>
+
+<section id="books" class="tab hidden">
+<div class="panel">
+<h2>Upload Textbook</h2>
+<input type="file" id="pdf" accept=".pdf">
+<button onclick="readPDF()">Extract Text from PDF</button>
+<label>Book Text</label>
+<textarea id="bookText" placeholder="Extracted book text will appear here..."></textarea>
+<button class="light" onclick="document.getElementById('bookText').value=''">Clear</button>
+</div>
+</section>
+
+<section id="study" class="tab hidden">
+<div class="panel">
+<h2>Study Material Generator</h2>
+<div class="grid">
+<div><label>Material Type</label>
+<select id="type">
+<option value="notes">Notes</option>
+<option value="mcqs">MCQs</option>
+<option value="short">Short Questions</option>
+<option value="long">Long Questions</option>
+<option value="definitions">Definitions</option>
+<option value="summary">Summary</option>
+<option value="test">Chapter Test</option>
+</select></div>
+<div><label>Language</label>
+<select id="lang"><option value="ur">اردو</option><option value="en">English</option><option value="both">Urdu + English</option></select></div>
+<div><label>Chapter</label><input id="chapter" placeholder="Chapter name or number"></div>
+<div><label>Number of Questions</label><input id="qty" type="number" value="10" min="1" max="100"></div>
+</div>
+<label>Topic / Instructions</label>
+<textarea id="topic" placeholder="Topic details or instructions..."></textarea>
+<button onclick="generate()">Generate Material</button>
+<button class="gray" onclick="printPages()">Print / PDF</button>
+</div>
+<div id="output"></div>
+</section>
+
+<section id="scheme" class="tab hidden">
+<div class="panel">
+<h2>Pairing Scheme</h2>
+<label>Scheme Title</label><input id="schemeTitle">
+<label>Scheme Text</label><textarea id="schemeText"></textarea>
+<button onclick="saveScheme()">Save Scheme</button>
+<button class="gray" onclick="loadScheme()">Load Saved Scheme</button>
+<button onclick="schemePage()">Create Printable Scheme</button>
+</div>
+</section>
+
+<section id="paper" class="tab hidden">
+<div class="panel">
+<h2>Paper Maker</h2>
+<div class="grid">
+<div><label>Paper Title</label><input id="pTitle" value="Monthly Test"></div>
+<div><label>Total Marks</label><input id="pMarks" value="50" type="number"></div>
+<div><label>Time</label><input id="pTime" value="2 Hours"></div>
+<div><label>Roll Number</label><input id="pRoll"></div>
+</div>
+<label>Instructions</label><textarea id="pInstructions"></textarea>
+<label>MCQs</label><textarea id="pMCQs"></textarea>
+<label>Short Questions</label><textarea id="pShort"></textarea>
+<label>Long Questions</label><textarea id="pLong"></textarea>
+<button onclick="createPaper()">Create Paper</button>
+<button class="gray" onclick="printPages()">Print / PDF</button>
+</div>
+</section>
+
+<section id="omr" class="tab hidden">
+<div class="panel">
+<h2>Bubble Answer Sheet</h2>
+<label>Student Name</label><input id="student">
+<label>Roll Number</label><input id="roll">
+<label>Number of MCQs</label><input id="bubbleQty" type="number" value="20" min="1" max="100">
+<button onclick="bubbleSheet()">Create Bubble Sheet</button>
+<button class="gray" onclick="printPages()">Print / PDF</button>
+</div>
+</section>
+
+</main>
+
+<footer>The Risen High School</footer>
+
+<script>
+const classes=["Playgroup","Nursery","Prep",...Array.from({length:10},(_,i)=>"Class "+(i+1)),"11th / FA Part 1","12th / FA Part 2"];
+const classEl=document.getElementById("class");
+classes.forEach(x=>classEl.add(new Option(x,x)));
+
+let logo=localStorage.getItem("risenLogo")||"";
+let outputHTML="";
+let langUI="ur";
+
+function applyLogo(){
+ if(!logo)return;
+ document.getElementById("schoolLogo").src=logo;
+ document.getElementById("favicon").href=logo;
+}
+applyLogo();
+
+function uploadLogo(){
+ let f=document.getElementById("logoFile").files[0];
+ if(!f)return alert("پہلے لوگو منتخب کریں");
+ let r=new FileReader();
+ r.onload=e=>{logo=e.target.result;applyLogo();alert("Logo uploaded. Save Logo بھی دبائیں۔")};
+ r.readAsDataURL(f);
+}
+function saveLogo(){
+ if(!logo)return alert("لوگو پہلے اپلوڈ کریں");
+ try{localStorage.setItem("risenLogo",logo);alert("لوگو محفوظ ہوگیا");}
+ catch(e){alert("لوگو بہت بڑا ہے، چھوٹا تصویر اپلوڈ کریں");}
+}
+function deleteLogo(){
+ logo="";
+ localStorage.removeItem("risenLogo");
+ document.getElementById("schoolLogo").removeAttribute("src");
+ document.getElementById("favicon").removeAttribute("href");
+ alert("لوگو ختم ہوگیا");
+}
+
+function tab(id,btn){
+ document.querySelectorAll(".tab").forEach(s=>s.classList.add("hidden"));
+ document.getElementById(id).classList.remove("hidden");
+ document.querySelectorAll("nav button").forEach(b=>b.style.background="#176b55");
+ if(btn)btn.style.background="#083d32";
+}
+
+function toggleLanguage(){
+ langUI=langUI==="ur"?"en":"ur";
+ document.body.classList.toggle("en",langUI==="en");
+ document.documentElement.lang=langUI;
+ document.documentElement.dir=langUI==="ur"?"rtl":"ltr";
+ document.getElementById("langBtn").textContent=langUI==="ur"?"English":"اردو";
+ document.querySelectorAll("[data-ur][data-en]").forEach(el=>{
+  el.textContent=el.getAttribute("data-"+langUI);
+ });
+}
+
+function esc(s){
+ return String(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+function page(title,body){
+ let wm=logo?`<img class="watermark" src="${logo}">`:"";
+ return `<article class="page">${wm}<div class="pageContent">
+ <h2>${esc(title)}</h2><hr>${body}
+ <hr><center><b>The Risen High School</b></center></div></article>`;
+}
+
+/* PDF TEXT READER */
+async function readPDF(){
+ let f=document.getElementById("pdf").files[0];
+ if(!f)return alert("PDF منتخب کریں");
+ if(!window.pdfjsLib)return alert("PDF reader load نہیں ہوا، انٹرنیٹ چیک کریں");
+ pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+ let reader=new FileReader();
+ reader.onload=async()=>{
+ try{
+ let pdf=await pdfjsLib.getDocument(new Uint8Array(reader.result)).promise;
+ let all="";
+ for(let i=1;i<=pdf.numPages;i++){
+  let pg=await pdf.getPage(i);
+  let content=await pg.getTextContent();
+  all+=content.items.map(x=>x.str).join(" ")+"\n\n";
+ }
+ document.getElementById("bookText").value=all;
+ alert("PDF text extracted. OCR errors may occur.");
+ }catch(e){alert("PDF سے متن نہیں نکلا۔ ممکن ہے PDF scanned ہو۔")}
+ };
+ reader.readAsArrayBuffer(f);
+}
+
+/* MATERIAL CREATION */
+function generate(){
+ let type=document.getElementById("type").value;
+ let chapter=document.getElementById("chapter").value||"Chapter";
+ let topic=document.getElementById("topic").value;
+ let qty=Math.min(100,Math.max(1,+document.getElementById("qty").value||10));
+ let text=document.getElementById("bookText").value;
+ let subject=document.getElementById("subject").value;
+ let cls=classEl.value;
+ let body="";
+ if(type==="notes"){
+  body=`<h3>${esc(chapter)}</h3><p>Class: ${esc(cls)} | Subject: ${esc(subject)}</p>
+  <p>${esc(topic)}</p><h3>Book Text</h3><p>${esc(text)}</p>`;
+ }
+ else if(type==="summary"){
+  body=`<h3>Summary — ${esc(chapter)}</h3><p>${esc(topic)}</p><p>${esc(text)}</p>`;
+ }
+ else if(type==="definitions"){
+  body=`<h3>Definitions</h3><p>${esc(topic)}</p><p>${esc(text)}</p>`;
+ }
+ else if(type==="mcqs"){
+  body="<h3>Multiple Choice Questions</h3>";
+  for(let i=1;i<=qty;i++)body+=`<p>${i}. ${esc(topic||chapter)}<br>A) ______ B) ______ C) ______ D) ______</p>`;
+ }
+ else if(type==="short"){
+  body="<h3>Short Questions</h3>";
+  for(let i=1;i<=qty;i++)body+=`<p>${i}. ${esc(topic||chapter)} — Write a short answer.</p>`;
+ }
+ else if(type==="long"){
+  body="<h3>Long Questions</h3>";
+  for(let i=1;i<=qty;i++)body+=`<p>${i}. Explain in detail: ${esc(topic||chapter)}.</p>`;
+ }
+ else{
+  body=`<h3>Chapter Test</h3><p>MCQs: ____________________</p>
+  <h3>Short Questions</h3><p>${esc(topic)}</p>
+  <h3>Long Questions</h3><p>Explain the chapter in detail.</p>`;
+ }
+ outputHTML=page(type.toUpperCase()+" — "+chapter,body);
+ document.getElementById("output").innerHTML=outputHTML;
+}
+
+/* PAPER */
+function createPaper(){
+ let body=`<p>Class: ${esc(classEl.value)} | Subject: ${esc(document.getElementById("subject").value)}</p>
+ <p>Roll Number: ${esc(document.getElementById("pRoll").value)}</p>
+ <p>Time: ${esc(document.getElementById("pTime").value)} | Marks: ${esc(document.getElementById("pMarks").value)}</p>
+ <p>${esc(document.getElementById("pInstructions").value)}</p>
+ <h3>Section A — MCQs</h3><p>${esc(document.getElementById("pMCQs").value).replace(/\n/g,"<br>")}</p>
+ <h3>Section B — Short Questions</h3><p>${esc(document.getElementById("pShort").value).replace(/\n/g,"<br>")}</p>
+ <h3>Section C — Long Questions</h3><p>${esc(document.getElementById("pLong").value).replace(/\n/g,"<br>")}</p>`;
+ outputHTML=page(document.getElementById("pTitle").value,body);
+ document.getElementById("output").innerHTML=outputHTML;
+}
+
+/* BUBBLE SHEET */
+function bubbleSheet(){
+ let n=Math.min(100,Math.max(1,+document.getElementById("bubbleQty").value||20));
+ let body=`<p>Student: ${esc(document.getElementById("student").value)}</p>
+ <p>Roll: ${esc(document.getElementById("roll").value)}</p>
+ <p>Fill only one bubble for each question.</p>
+ <table style="width:100%;border-collapse:collapse;text-align:center">
+ <tr><th>Q</th><th>A</th><th>B</th><th>C</th><th>D</th></tr>`;
+ for(let i=1;i<=n;i++)body+=`<tr style="height:32px"><td>${i}</td><td>◯</td><td>◯</td><td>◯</td><td>◯</td></tr>`;
+ body+="</table>";
+ outputHTML=page("MCQ Answer Sheet",body);
+ document.getElementById("output").innerHTML=outputHTML;
+}
+
+/* SCHEME SAVE */
+function saveScheme(){
+ let obj={title:document.getElementById("schemeTitle").value,text:document.getElementById("schemeText").value};
+ localStorage.setItem("risenScheme",JSON.stringify(obj));
+ alert("Scheme saved on this device");
+}
+function loadScheme(){
+ let s=localStorage.getItem("risenScheme");
+ if(!s)return alert("No saved scheme found");
+ let o=JSON.parse(s);
+ document.getElementById("schemeTitle").value=o.title;
+ document.getElementById("schemeText").value=o.text;
+}
+function schemePage(){
+ let title=document.getElementById("schemeTitle").value||"Pairing Scheme";
+ let text=document.getElementById("schemeText").value;
+ outputHTML=page(title,`<p>${esc(text).replace(/\n/g,"<br>")}</p>`);
+ document.getElementById("output").innerHTML=outputHTML;
+}
+function printPages(){
+ if(!outputHTML)return alert("پہلے مواد تیار کریں");
+ window.print();
+}
+</script>
+</body>
+</html>
