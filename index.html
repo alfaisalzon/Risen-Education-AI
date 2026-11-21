@@ -3,50 +3,163 @@
 <html lang="ur" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#176b55">
-<title>Risen Education Platform</title>
-<link id="favicon" rel="icon">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<title>Risen Education AI | The Risen High School</title>
 
 <style>
 @font-face{
- font-family:Jameel;
- src:url("https://cdn.jsdelivr.net/gh/tariq-abdullah/urdu-web-font-CDN/JameelNooriNastaleeq.woff");
+  font-family:Jameel;
+  src:url("https://cdn.jsdelivr.net/gh/tariq-abdullah/urdu-web-font-CDN/JameelNooriNastaleeq.woff");
+}
+:root{
+  --green:#176b55;
+  --dark:#104c3d;
+  --light:#eaf5f0;
+  --bg:#f4f7f6;
 }
 *{box-sizing:border-box}
-body{margin:0;background:#eef3f2;color:#172033;font-family:Jameel,Arial,sans-serif}
-body.en{direction:ltr;font-family:Arial,sans-serif}
-header{background:linear-gradient(135deg,#176b55,#083d32);color:white;text-align:center;padding:20px}
-header img{width:85px;height:85px;object-fit:contain;border-radius:50%;background:#ffffff20;padding:5px}
-header h1{margin:8px 0}
-nav{display:flex;gap:7px;overflow:auto;padding:10px;background:#dcebe4}
-button{border:0;background:#176b55;color:white;padding:11px 14px;border-radius:9px;font-family:inherit;font-size:16px;cursor:pointer}
-nav button{white-space:nowrap}
-button.gray{background:#475569}
-button.red{background:#dc2626}
-button.light{background:#e2e8f0;color:#172033}
-main{max-width:1100px;margin:auto;padding:12px}
-.panel{background:white;padding:16px;border-radius:14px;margin-bottom:14px;box-shadow:0 2px 8px #00000008}
-h2{color:#176b55}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
-input,select,textarea{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:9px;font-family:inherit;font-size:16px;margin:5px 0}
-textarea{min-height:100px}
-label{display:block;margin-top:7px}
-.page{position:relative;background:white;padding:25px;margin:12px 0;border:1px solid #ddd;overflow:hidden;min-height:400px}
-.watermark{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:380px;height:380px;max-width:80%;object-fit:contain;opacity:.065;z-index:0;pointer-events:none}
-.pageContent{position:relative;z-index:1}
-.page h2{text-align:center}
-.page p,.page li{line-height:2.2}
+body{
+  margin:0;
+  background:var(--bg);
+  color:#24332e;
+  font-family:Jameel,Arial,sans-serif;
+  font-size:17px;
+}
+button,input,select,textarea{font:inherit}
+header{
+  background:linear-gradient(135deg,#104c3d,#21866a);
+  color:white;
+  padding:18px 14px;
+  text-align:center;
+  position:relative;
+}
+.logo{
+  width:75px;height:75px;
+  object-fit:contain;
+  border-radius:50%;
+  background:white;
+  padding:5px;
+  display:block;
+  margin:0 auto 8px;
+}
+header h1{font-size:25px;margin:5px}
+header p{margin:3px;font-size:14px}
+.top-actions{
+  display:flex;justify-content:center;
+  gap:8px;margin-top:12px;flex-wrap:wrap
+}
+.top-actions button{
+  border:1px solid #ffffff80;
+  color:white;background:#ffffff20;
+  border-radius:20px;padding:6px 14px;
+}
+nav{
+  display:flex;gap:7px;padding:10px;
+  overflow-x:auto;background:white;
+  position:sticky;top:0;z-index:5;
+  box-shadow:0 2px 8px #00000010;
+}
+nav button{
+  flex-shrink:0;border:0;background:#edf3f0;
+  color:#245a49;border-radius:9px;
+  padding:9px 15px;cursor:pointer;
+}
+nav button.active{background:var(--green);color:white}
+main{max-width:1000px;margin:auto;padding:13px}
+.page{display:none}
+.page.active{display:block}
+.card{
+  background:white;border-radius:14px;
+  padding:16px;margin-bottom:14px;
+  box-shadow:0 2px 10px #00000008;
+}
+h2{color:var(--green);font-size:22px;margin:0 0 12px}
+h3{font-size:19px;color:var(--dark);margin:10px 0}
+label{display:block;margin:9px 0 4px}
+input,select,textarea{
+  width:100%;padding:11px;
+  border:1px solid #d7e2dc;border-radius:9px;
+  background:#fff;outline:none;
+}
+textarea{min-height:100px;resize:vertical}
+.btn{
+  border:0;border-radius:9px;padding:10px 17px;
+  background:var(--green);color:white;
+  cursor:pointer;margin:5px 2px;
+}
+.btn.secondary{background:#e6f1ec;color:var(--dark)}
+.btn.red{background:#b83c3c}
+.grid{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+}
+.tile{
+  border:1px solid #dce9e2;background:#f8fbf9;
+  border-radius:12px;padding:14px;text-align:center;
+  cursor:pointer;
+}
+.tile strong{display:block;color:var(--green);font-size:18px}
+.small{font-size:13px;color:#6b7d74}
+.notice{
+  background:#fff7df;border-right:4px solid #e2ad35;
+  padding:10px;border-radius:8px;font-size:14px;
+  margin:10px 0;
+}
+.success{
+  background:#eaf5f0;padding:10px;border-radius:8px;
+}
+.book-item{
+  display:flex;align-items:center;gap:12px;
+  border:1px solid #e0e9e4;border-radius:10px;
+  padding:12px;margin:8px 0;background:#fff;
+}
+.book-icon{
+  width:48px;height:55px;border-radius:6px;
+  display:grid;place-items:center;
+  background:#e5f2eb;color:var(--green);
+  font-size:24px;flex-shrink:0;
+}
+.book-info{flex:1;min-width:0}
+.book-info strong{display:block}
+.book-info small{color:#75837b}
+.book-item button{white-space:nowrap}
+.output{
+  background:#fff;border:1px solid #dce6e0;
+  padding:14px;border-radius:10px;
+  min-height:90px;white-space:pre-wrap;
+}
+.paper{
+  position:relative;background:white;
+  padding:25px;margin-top:15px;
+  border:1px solid #ddd;min-height:400px;
+  overflow:hidden;
+}
+.watermark{
+  position:absolute;left:50%;top:50%;
+  transform:translate(-50%,-50%);
+  width:230px;height:230px;object-fit:contain;
+  opacity:.06;pointer-events:none;
+}
+.paper-content{position:relative;z-index:1}
+.paper h2,.paper h3{text-align:center}
+table{width:100%;border-collapse:collapse;margin-top:10px}
+td,th{border:1px solid #777;padding:7px;text-align:center}
+footer{text-align:center;color:#718078;padding:20px;font-size:13px}
 .hidden{display:none!important}
-.small{color:#64748b;font-size:14px}
-footer{text-align:center;padding:20px;color:#64748b}
+@media(max-width:500px){
+  .grid{grid-template-columns:1fr 1fr}
+  header h1{font-size:21px}
+  .book-item{flex-wrap:wrap}
+}
 @media print{
- body{background:white}
- header,nav,.noPrint,main>.panel{display:none!important}
- main{padding:0;margin:0}
- .page{border:0;margin:0;padding:15mm;min-height:270mm;page-break-after:always}
- .watermark{opacity:.075!important;width:420px;height:420px}
+  body{background:white}
+  header,nav,.no-print,footer{display:none!important}
+  main{padding:0;max-width:none}
+  .page{display:none!important}
+  .page.printing{display:block!important}
+  .card{box-shadow:none;border:0}
+  .paper{border:0;margin:0;min-height:0}
 }
 </style>
 </head>
@@ -54,317 +167,638 @@ footer{text-align:center;padding:20px;color:#64748b}
 <body>
 
 <header>
-<img id="schoolLogo" alt="School Logo">
-<h1 id="schoolName">The Risen High School</h1>
-<p>Risen Education & Study Platform</p>
+  <img id="schoolLogo" class="logo" alt="School Logo">
+  <h1 id="schoolName">The Risen High School</h1>
+  <p>رائزن ایجوکیشن اے آئی</p>
+  <p>Punjab Education Platform</p>
+  <div class="top-actions">
+    <button onclick="document.getElementById('logoInput').click()">لوگو اپ لوڈ کریں</button>
+    <button onclick="toggleLanguage()" id="langButton">English</button>
+  </div>
+  <input type="file" id="logoInput" accept="image/*" hidden>
 </header>
 
-<div class="noPrint" style="padding:10px;text-align:center;background:white">
-<button class="gray" onclick="toggleLanguage()" id="langBtn">English</button>
-<button class="light" onclick="window.print()">Print / PDF</button>
-</div>
-
-<nav class="noPrint">
-<button onclick="tab('home',this)" data-ur="ہوم" data-en="Home">ہوم</button>
-<button onclick="tab('books',this)" data-ur="کتاب" data-en="Book">کتاب</button>
-<button onclick="tab('study',this)" data-ur="نوٹس و سوالات" data-en="Notes & Questions">نوٹس و سوالات</button>
-<button onclick="tab('scheme',this)" data-ur="پیئرنگ اسکیم" data-en="Pairing Scheme">پیئرنگ اسکیم</button>
-<button onclick="tab('paper',this)" data-ur="پیپر میکر" data-en="Paper Maker">پیپر میکر</button>
-<button onclick="tab('omr',this)" data-ur="ببل شیٹ" data-en="Bubble Sheet">ببل شیٹ</button>
+<nav class="no-print">
+  <button class="active" onclick="showPage('home',this)">ہوم</button>
+  <button onclick="showPage('books',this)">کتابیں</button>
+  <button onclick="showPage('upload',this)">کتاب اپ لوڈ</button>
+  <button onclick="showPage('material',this)">نوٹس / سوالات</button>
+  <button onclick="showPage('scheme',this)">پیئرنگ اسکیم</button>
+  <button onclick="showPage('paper',this)">پیپر میکر</button>
+  <button onclick="showPage('bubble',this)">ببل شیٹ</button>
 </nav>
 
 <main>
 
-<section id="home" class="tab">
-<div class="panel">
-<h2>Risen Education Platform</h2>
-<p>Punjab Classes Playgroup to 12th | Study Material | Papers | Books</p>
-<h3>School Logo</h3>
-<p>اپنا لوگو اپلوڈ کریں۔ یہی لوگو ایپ آئیکن اور Watermark دونوں میں استعمال ہوگا۔</p>
-<input type="file" id="logoFile" accept="image/*">
-<button onclick="uploadLogo()">Upload Logo</button>
-<button class="red" onclick="deleteLogo()">Remove Logo</button>
-<p class="small">لوگو اپلوڈ کرنے کے بعد Save Logo دبائیں۔</p>
-<button onclick="saveLogo()">Save Logo</button>
-</div>
+<!-- HOME -->
+<section class="page active" id="home">
+  <div class="card">
+    <h2>رائزن ایجوکیشن اے آئی میں خوش آمدید</h2>
+    <p>اپنی جماعت، بورڈ اور مضمون منتخب کرکے تعلیمی مواد تیار کریں۔</p>
+    <div class="grid">
+      <div class="tile" onclick="showPage('books')">
+        <strong>کتابیں</strong>
+        <span class="small">تمام جماعتوں کی کتابیں</span>
+      </div>
+      <div class="tile" onclick="showPage('material')">
+        <strong>نوٹس اور سوالات</strong>
+        <span class="small">مطالعہ کا مواد</span>
+      </div>
+      <div class="tile" onclick="showPage('scheme')">
+        <strong>پیئرنگ اسکیم</strong>
+        <span class="small">باب اور سوالات کی تقسیم</span>
+      </div>
+      <div class="tile" onclick="showPage('paper')">
+        <strong>پیپر میکر</strong>
+        <span class="small">امتحانی پرچہ بنائیں</span>
+      </div>
+      <div class="tile" onclick="showPage('bubble')">
+        <strong>ببل شیٹ</strong>
+        <span class="small">MCQs جوابی شیٹ</span>
+      </div>
+      <div class="tile" onclick="showPage('upload')">
+        <strong>کتاب اپ لوڈ</strong>
+        <span class="small">اپنی PDF شامل کریں</span>
+      </div>
+    </div>
+  </div>
 
-<div class="panel">
-<h2>Class & Board</h2>
-<div class="grid">
-<div><label>Class</label><select id="class"></select></div>
-<div><label>Board</label>
-<select id="board">
-<option>BISE Lahore</option><option>BISE Gujranwala</option>
-<option>BISE Faisalabad</option><option>BISE Multan</option>
-<option>BISE Rawalpindi</option><option>BISE Sargodha</option>
-<option>BISE Bahawalpur</option><option>BISE Sahiwal</option>
-<option>BISE D.G. Khan</option>
-</select></div>
-<div><label>Subject</label><input id="subject" placeholder="Subject Name"></div>
-<div><label>Book / Publisher</label><input id="publisher" placeholder="Book Name"></div>
-</div>
-</div>
+  <div class="card">
+    <h2>جماعت اور بورڈ منتخب کریں</h2>
+    <label>جماعت</label>
+    <select id="homeClass" onchange="syncClass()"></select>
+    <label>بورڈ</label>
+    <select id="homeBoard">
+      <option>لاہور بورڈ</option>
+      <option>گوجرانوالہ بورڈ</option>
+      <option>فیصل آباد بورڈ</option>
+      <option>ملتان بورڈ</option>
+      <option>راولپنڈی بورڈ</option>
+      <option>سرگودھا بورڈ</option>
+      <option>بہاولپور بورڈ</option>
+      <option>ساہیوال بورڈ</option>
+      <option>ڈی جی خان بورڈ</option>
+    </select>
+  </div>
 </section>
 
-<section id="books" class="tab hidden">
-<div class="panel">
-<h2>Upload Textbook</h2>
-<input type="file" id="pdf" accept=".pdf">
-<button onclick="readPDF()">Extract Text from PDF</button>
-<label>Book Text</label>
-<textarea id="bookText" placeholder="Extracted book text will appear here..."></textarea>
-<button class="light" onclick="document.getElementById('bookText').value=''">Clear</button>
-</div>
+<!-- BOOK LIBRARY -->
+<section class="page" id="books">
+  <div class="card">
+    <h2>کتابوں کی ڈیجیٹل لائبریری</h2>
+    <p>جماعت، گروپ اور مضمون منتخب کریں۔</p>
+
+    <label>جماعت منتخب کریں</label>
+    <select id="bookClass" onchange="updateBookGroups()"></select>
+
+    <div id="groupArea">
+      <label>گروپ منتخب کریں</label>
+      <select id="bookGroup" onchange="renderBooks()">
+        <option value="pre-medical">پری میڈیکل</option>
+        <option value="pre-engineering">پری انجینئرنگ</option>
+        <option value="ics">آئی سی ایس</option>
+        <option value="general-science">جنرل سائنس</option>
+        <option value="arts">آرٹس / ہیومینیٹیز</option>
+        <option value="commerce">کامرس</option>
+      </select>
+    </div>
+
+    <label>مضمون منتخب کریں</label>
+    <select id="bookSubject" onchange="filterBooks()">
+      <option value="all">تمام مضامین</option>
+    </select>
+
+    <div class="notice">
+      کتابوں کے نام اور گروپس کا ڈھانچہ موجود ہے۔ اصل سرکاری PDF فائلیں مستند ذرائع سے شامل ہونے کے بعد یہاں پڑھنے اور ڈاؤن لوڈ کرنے کے قابل ہوں گی۔
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>دستیاب کتابیں</h2>
+    <div id="bookList"></div>
+  </div>
+
+  <div class="card">
+    <h2>اپنی کتاب کی PDF شامل کریں</h2>
+    <label>کتاب کا نام</label>
+    <input id="customBookName" placeholder="کتاب کا نام لکھیں">
+    <label>PDF فائل</label>
+    <input type="file" id="customBookFile" accept="application/pdf">
+    <button class="btn" onclick="addCustomBook()">کتاب شامل کریں</button>
+    <p class="small">یہ فائل اس ڈیوائس کے موجودہ سیشن میں استعمال ہوگی؛ مستقل آن لائن لائبریری کے لیے سرور یا فائل ہوسٹنگ درکار ہوگی۔</p>
+  </div>
 </section>
 
-<section id="study" class="tab hidden">
-<div class="panel">
-<h2>Study Material Generator</h2>
-<div class="grid">
-<div><label>Material Type</label>
-<select id="type">
-<option value="notes">Notes</option>
-<option value="mcqs">MCQs</option>
-<option value="short">Short Questions</option>
-<option value="long">Long Questions</option>
-<option value="definitions">Definitions</option>
-<option value="summary">Summary</option>
-<option value="test">Chapter Test</option>
-</select></div>
-<div><label>Language</label>
-<select id="lang"><option value="ur">اردو</option><option value="en">English</option><option value="both">Urdu + English</option></select></div>
-<div><label>Chapter</label><input id="chapter" placeholder="Chapter name or number"></div>
-<div><label>Number of Questions</label><input id="qty" type="number" value="10" min="1" max="100"></div>
-</div>
-<label>Topic / Instructions</label>
-<textarea id="topic" placeholder="Topic details or instructions..."></textarea>
-<button onclick="generate()">Generate Material</button>
-<button class="gray" onclick="printPages()">Print / PDF</button>
-</div>
-<div id="output"></div>
+<!-- PDF UPLOAD -->
+<section class="page" id="upload">
+  <div class="card">
+    <h2>کتاب اپ لوڈ کریں</h2>
+    <label>کتاب کا نام</label>
+    <input id="uploadBookName" placeholder="کتاب کا نام">
+    <label>PDF فائل منتخب کریں</label>
+    <input type="file" id="pdfFile" accept="application/pdf">
+    <button class="btn" onclick="readPDF()">PDF پڑھیں</button>
+    <div id="pdfStatus" class="output">ابھی کوئی کتاب اپ لوڈ نہیں ہوئی۔</div>
+  </div>
 </section>
 
-<section id="scheme" class="tab hidden">
-<div class="panel">
-<h2>Pairing Scheme</h2>
-<label>Scheme Title</label><input id="schemeTitle">
-<label>Scheme Text</label><textarea id="schemeText"></textarea>
-<button onclick="saveScheme()">Save Scheme</button>
-<button class="gray" onclick="loadScheme()">Load Saved Scheme</button>
-<button onclick="schemePage()">Create Printable Scheme</button>
-</div>
+<!-- MATERIAL -->
+<section class="page" id="material">
+  <div class="card">
+    <h2>نوٹس اور سوالات تیار کریں</h2>
+    <label>جماعت</label>
+    <select id="materialClass"></select>
+    <label>گروپ</label>
+    <select id="materialGroup">
+      <option>پری میڈیکل</option>
+      <option>پری انجینئرنگ</option>
+      <option>آئی سی ایس</option>
+      <option>جنرل سائنس</option>
+      <option>آرٹس / ہیومینیٹیز</option>
+      <option>کامرس</option>
+    </select>
+    <label>مضمون</label>
+    <input id="materialSubject" placeholder="مثلاً فزکس، اردو، کیمسٹری">
+    <label>باب نمبر / نام</label>
+    <input id="materialChapter" placeholder="باب کا نام یا نمبر">
+    <label>مواد کی قسم</label>
+    <select id="materialType">
+      <option>مکمل نوٹس</option>
+      <option>MCQs</option>
+      <option>مختصر سوالات</option>
+      <option>تفصیلی سوالات</option>
+      <option>تعریفیں</option>
+      <option>خلاصہ</option>
+      <option>باب کا ٹیسٹ</option>
+    </select>
+    <label>زبان</label>
+    <select id="materialLanguage">
+      <option>اردو</option>
+      <option>English</option>
+      <option>اردو + English</option>
+    </select>
+    <label>کتاب سے مواد / باب کا متن</label>
+    <textarea id="materialSource" placeholder="منتخب کتاب کا متن یہاں آئے گا یا آپ خود متن شامل کریں..."></textarea>
+    <button class="btn" onclick="generateMaterial()">تیار کریں</button>
+    <div class="notice">اس انٹرفیس میں حقیقی AI کنکشن ابھی شامل نہیں۔ بغیر AI بیک اینڈ کے تیار ہونے والا مواد اصل کتاب سے تصدیق شدہ نہیں ہوگا۔</div>
+  </div>
+  <div class="card">
+    <h2>تیار شدہ مواد</h2>
+    <div id="materialOutput" class="output">آپ کا مواد یہاں دکھائی دے گا۔</div>
+    <button class="btn secondary" onclick="printOutput('materialOutput')">پرنٹ / PDF</button>
+  </div>
 </section>
 
-<section id="paper" class="tab hidden">
-<div class="panel">
-<h2>Paper Maker</h2>
-<div class="grid">
-<div><label>Paper Title</label><input id="pTitle" value="Monthly Test"></div>
-<div><label>Total Marks</label><input id="pMarks" value="50" type="number"></div>
-<div><label>Time</label><input id="pTime" value="2 Hours"></div>
-<div><label>Roll Number</label><input id="pRoll"></div>
-</div>
-<label>Instructions</label><textarea id="pInstructions"></textarea>
-<label>MCQs</label><textarea id="pMCQs"></textarea>
-<label>Short Questions</label><textarea id="pShort"></textarea>
-<label>Long Questions</label><textarea id="pLong"></textarea>
-<button onclick="createPaper()">Create Paper</button>
-<button class="gray" onclick="printPages()">Print / PDF</button>
-</div>
+<!-- PAIRING SCHEME -->
+<section class="page" id="scheme">
+  <div class="card">
+    <h2>پیئرنگ اسکیم</h2>
+    <label>جماعت</label>
+    <select id="schemeClass"></select>
+    <label>بورڈ</label>
+    <select id="schemeBoard">
+      <option>لاہور بورڈ</option>
+      <option>گوجرانوالہ بورڈ</option>
+      <option>فیصل آباد بورڈ</option>
+      <option>ملتان بورڈ</option>
+      <option>راولپنڈی بورڈ</option>
+      <option>سرگودھا بورڈ</option>
+      <option>بہاولپور بورڈ</option>
+      <option>ساہیوال بورڈ</option>
+      <option>ڈی جی خان بورڈ</option>
+    </select>
+    <label>گروپ</label>
+    <select id="schemeGroup">
+      <option>پری میڈیکل</option>
+      <option>پری انجینئرنگ</option>
+      <option>آئی سی ایس</option>
+      <option>جنرل سائنس</option>
+      <option>آرٹس</option>
+      <option>کامرس</option>
+    </select>
+    <label>مضمون</label>
+    <input id="schemeSubject" placeholder="مضمون کا نام">
+    <label>سال</label>
+    <select id="schemeYear">
+      <option>2026-2027</option>
+      <option>2025-2026</option>
+    </select>
+    <button class="btn" onclick="showScheme()">اسکیم دیکھیں</button>
+    <div id="schemeOutput" class="output">مستند اسکیم دستیاب ہونے پر یہاں دکھائی جائے گی۔</div>
+    <div class="notice">سرکاری اسکیم کا مستند PDF یا ڈیٹا شامل کیے بغیر اسے اصل سرکاری اسکیم نہیں کہا جائے گا۔</div>
+  </div>
 </section>
 
-<section id="omr" class="tab hidden">
-<div class="panel">
-<h2>Bubble Answer Sheet</h2>
-<label>Student Name</label><input id="student">
-<label>Roll Number</label><input id="roll">
-<label>Number of MCQs</label><input id="bubbleQty" type="number" value="20" min="1" max="100">
-<button onclick="bubbleSheet()">Create Bubble Sheet</button>
-<button class="gray" onclick="printPages()">Print / PDF</button>
-</div>
+<!-- PAPER MAKER -->
+<section class="page" id="paper">
+  <div class="card">
+    <h2>پیپر میکر</h2>
+    <label>جماعت</label>
+    <select id="paperClass"></select>
+    <label>مضمون</label>
+    <input id="paperSubject" placeholder="مضمون">
+    <label>امتحان کی قسم</label>
+    <select id="paperExam">
+      <option>ماہانہ ٹیسٹ</option>
+      <option>سہ ماہی امتحان</option>
+      <option>ششماہی امتحان</option>
+      <option>سالانہ امتحان</option>
+      <option>ماڈل پیپر</option>
+    </select>
+    <div class="grid">
+      <div>
+        <label>کل نمبر</label>
+        <input id="paperMarks" type="number" value="50">
+      </div>
+      <div>
+        <label>وقت</label>
+        <input id="paperTime" value="2 گھنٹے">
+      </div>
+    </div>
+    <label>MCQs</label>
+    <textarea id="paperMCQ" placeholder="سوالات اور اختیارات لکھیں"></textarea>
+    <label>مختصر سوالات</label>
+    <textarea id="paperShort" placeholder="مختصر سوالات لکھیں"></textarea>
+    <label>تفصیلی سوالات</label>
+    <textarea id="paperLong" placeholder="تفصیلی سوالات لکھیں"></textarea>
+    <button class="btn" onclick="makePaper()">پیپر تیار کریں</button>
+  </div>
+
+  <div class="card">
+    <h2>پیپر پری ویو</h2>
+    <div class="paper" id="paperPreview">
+      <img class="watermark watermarkImg" alt="">
+      <div class="paper-content">
+        <h2>The Risen High School</h2>
+        <h3>امتحانی پرچہ</h3>
+        <p>نام: __________________ رول نمبر: ______________</p>
+        <p>جماعت: __________ مضمون: __________</p>
+        <p>وقت: __________ کل نمبر: __________</p>
+        <hr>
+        <p>پیپر تیار کرنے کے لیے اوپر معلومات درج کریں۔</p>
+      </div>
+    </div>
+    <button class="btn" onclick="printPaper()">پرنٹ / PDF</button>
+  </div>
+</section>
+
+<!-- BUBBLE SHEET -->
+<section class="page" id="bubble">
+  <div class="card">
+    <h2>MCQs ببل شیٹ</h2>
+    <label>طالب علم کا نام</label>
+    <input id="studentName" placeholder="طالب علم کا نام">
+    <label>رول نمبر</label>
+    <input id="rollNumber" placeholder="رول نمبر">
+    <label>جماعت</label>
+    <select id="bubbleClass"></select>
+    <label>مضمون</label>
+    <input id="bubbleSubject" placeholder="مضمون">
+    <label>سوالات کی تعداد</label>
+    <input id="bubbleCount" type="number" value="50" min="1" max="100">
+    <button class="btn" onclick="makeBubble()">ببل شیٹ بنائیں</button>
+  </div>
+  <div class="card">
+    <h2>جوابی شیٹ</h2>
+    <div id="bubbleOutput" class="paper">
+      <img class="watermark watermarkImg" alt="">
+      <div class="paper-content">ببل شیٹ بنانے کے لیے معلومات درج کریں۔</div>
+    </div>
+    <button class="btn" onclick="printBubble()">پرنٹ / PDF</button>
+  </div>
 </section>
 
 </main>
-
-<footer>The Risen High School</footer>
+<footer>
+  The Risen High School | Risen Education AI
+</footer>
 
 <script>
-const classes=["Playgroup","Nursery","Prep",...Array.from({length:10},(_,i)=>"Class "+(i+1)),"11th / FA Part 1","12th / FA Part 2"];
-const classEl=document.getElementById("class");
-classes.forEach(x=>classEl.add(new Option(x,x)));
+const classes = [
+ "پلے گروپ","نرسری","پریپ",
+ "پہلی جماعت","دوسری جماعت","تیسری جماعت",
+ "چوتھی جماعت","پانچویں جماعت","چھٹی جماعت",
+ "ساتویں جماعت","آٹھویں جماعت","نویں جماعت",
+ "دسویں جماعت","گیارہویں جماعت / فرسٹ ایئر",
+ "بارہویں جماعت / سیکنڈ ایئر"
+];
 
-let logo=localStorage.getItem("risenLogo")||"";
-let outputHTML="";
-let langUI="ur";
+const subjects = {
+ "9":[
+  ["اردو","لازمی"],["انگریزی","لازمی"],["اسلامیات","لازمی"],
+  ["ترجمۃ القرآن","لازمی"],["ریاضی","سائنس"],
+  ["فزکس","سائنس"],["کیمسٹری","سائنس"],
+  ["حیاتیات","پری میڈیکل"],["کمپیوٹر سائنس","آئی سی ایس"],
+  ["جنرل سائنس","جنرل سائنس"]
+ ],
+ "10":[
+  ["اردو","لازمی"],["انگریزی","لازمی"],["پاکستان اسٹڈیز","لازمی"],
+  ["ترجمۃ القرآن","لازمی"],["ریاضی","سائنس"],
+  ["فزکس","سائنس"],["کیمسٹری","سائنس"],
+  ["حیاتیات","پری میڈیکل"],["کمپیوٹر سائنس","آئی سی ایس"],
+  ["جنرل سائنس","جنرل سائنس"]
+ ],
+ "11":[
+  ["اردو","لازمی"],["انگریزی","لازمی"],["اسلامیات","لازمی"],
+  ["ترجمۃ القرآن","لازمی"],["فزکس","پری میڈیکل"],
+  ["کیمسٹری","پری میڈیکل"],["حیاتیات","پری میڈیکل"],
+  ["فزکس","پری انجینئرنگ"],["کیمسٹری","پری انجینئرنگ"],
+  ["ریاضی","پری انجینئرنگ"],["کمپیوٹر سائنس","آئی سی ایس"],
+  ["ریاضی","آئی سی ایس"],["شماریات","آئی سی ایس"],
+  ["اکنامکس","آرٹس"],["تعلیم","آرٹس"],["شہریات","آرٹس"],
+  ["اکاؤنٹنگ","کامرس"],["بزنس","کامرس"]
+ ],
+ "12":[
+  ["اردو","لازمی"],["انگریزی","لازمی"],["پاکستان اسٹڈیز","لازمی"],
+  ["ترجمۃ القرآن","لازمی"],["فزکس","پری میڈیکل"],
+  ["کیمسٹری","پری میڈیکل"],["حیاتیات","پری میڈیکل"],
+  ["فزکس","پری انجینئرنگ"],["کیمسٹری","پری انجینئرنگ"],
+  ["ریاضی","پری انجینئرنگ"],["کمپیوٹر سائنس","آئی سی ایس"],
+  ["ریاضی","آئی سی ایس"],["شماریات","آئی سی ایس"],
+  ["اکنامکس","آرٹس"],["تعلیم","آرٹس"],["شہریات","آرٹس"],
+  ["اکاؤنٹنگ","کامرس"],["بزنس","کامرس"]
+ ]
+};
 
-function applyLogo(){
- if(!logo)return;
- document.getElementById("schoolLogo").src=logo;
- document.getElementById("favicon").href=logo;
-}
-applyLogo();
+let uploadedPDFText = "";
+let customBooks = [];
+let bookURLs = {};
 
-function uploadLogo(){
- let f=document.getElementById("logoFile").files[0];
- if(!f)return alert("پہلے لوگو منتخب کریں");
- let r=new FileReader();
- r.onload=e=>{logo=e.target.result;applyLogo();alert("Logo uploaded. Save Logo بھی دبائیں۔")};
- r.readAsDataURL(f);
+function fillClasses(){
+  ["homeClass","bookClass","materialClass","schemeClass",
+   "paperClass","bubbleClass"].forEach(id=>{
+    const el=document.getElementById(id);
+    if(!el)return;
+    el.innerHTML="";
+    classes.forEach((c,i)=>{
+      let o=document.createElement("option");
+      o.value=i;o.textContent=c;el.appendChild(o);
+    });
+  });
 }
-function saveLogo(){
- if(!logo)return alert("لوگو پہلے اپلوڈ کریں");
- try{localStorage.setItem("risenLogo",logo);alert("لوگو محفوظ ہوگیا");}
- catch(e){alert("لوگو بہت بڑا ہے، چھوٹا تصویر اپلوڈ کریں");}
-}
-function deleteLogo(){
- logo="";
- localStorage.removeItem("risenLogo");
- document.getElementById("schoolLogo").removeAttribute("src");
- document.getElementById("favicon").removeAttribute("href");
- alert("لوگو ختم ہوگیا");
-}
+fillClasses();
 
-function tab(id,btn){
- document.querySelectorAll(".tab").forEach(s=>s.classList.add("hidden"));
- document.getElementById(id).classList.remove("hidden");
- document.querySelectorAll("nav button").forEach(b=>b.style.background="#176b55");
- if(btn)btn.style.background="#083d32";
+function showPage(id,btn){
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active","printing"));
+  document.getElementById(id).classList.add("active");
+  document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));
+  if(btn)btn.classList.add("active");
+  if(id==="books")updateBookGroups();
+}
+function syncClass(){
+  document.getElementById("bookClass").value=
+    document.getElementById("homeClass").value;
+  updateBookGroups();
 }
 
-function toggleLanguage(){
- langUI=langUI==="ur"?"en":"ur";
- document.body.classList.toggle("en",langUI==="en");
- document.documentElement.lang=langUI;
- document.documentElement.dir=langUI==="ur"?"rtl":"ltr";
- document.getElementById("langBtn").textContent=langUI==="ur"?"English":"اردو";
- document.querySelectorAll("[data-ur][data-en]").forEach(el=>{
-  el.textContent=el.getAttribute("data-"+langUI);
- });
+function classNumber(){
+  const v=Number(document.getElementById("bookClass").value);
+  if(v===11)return "9";
+  if(v===12)return "10";
+  if(v===13)return "11";
+  if(v===14)return "12";
+  return "";
 }
 
-function esc(s){
- return String(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-}
-function page(title,body){
- let wm=logo?`<img class="watermark" src="${logo}">`:"";
- return `<article class="page">${wm}<div class="pageContent">
- <h2>${esc(title)}</h2><hr>${body}
- <hr><center><b>The Risen High School</b></center></div></article>`;
+function updateBookGroups(){
+  const n=classNumber();
+  const groupArea=document.getElementById("groupArea");
+  groupArea.style.display=n?"block":"none";
+  renderBooks();
 }
 
-/* PDF TEXT READER */
+function renderBooks(){
+  const n=classNumber();
+  const group=document.getElementById("bookGroup").value;
+  const subjectSelect=document.getElementById("bookSubject");
+  const list=document.getElementById("bookList");
+  subjectSelect.innerHTML='<option value="all">تمام مضامین</option>';
+
+  if(!n){
+    list.innerHTML="<p>اس جماعت کے لیے کتابوں کی فہرست بعد میں شامل کی جائے گی۔</p>";
+    return;
+  }
+
+  let data=subjects[n]||[];
+  let filtered=data.filter(s=>{
+    return group==="all" || s[1]==="لازمی" ||
+      (group==="pre-medical" && s[1]==="پری میڈیکل") ||
+      (group==="pre-engineering" && s[1]==="پری انجینئرنگ") ||
+      (group==="ics" && s[1]==="آئی سی ایس") ||
+      (group==="general-science" && s[1]==="جنرل سائنس") ||
+      (group==="arts" && s[1]==="آرٹس") ||
+      (group==="commerce" && s[1]==="کامرس") ||
+      (group==="pre-medical" && s[1]==="سائنس") ||
+      (group==="pre-engineering" && s[1]==="سائنس");
+  });
+
+  let unique=[...new Set(filtered.map(s=>s[0]))];
+  unique.forEach(s=>{
+    let o=document.createElement("option");
+    o.value=s;o.textContent=s;subjectSelect.appendChild(o);
+  });
+
+  filterBooks();
+}
+
+function filterBooks(){
+  const n=classNumber();
+  const group=document.getElementById("bookGroup").value;
+  const selected=document.getElementById("bookSubject").value;
+  const list=document.getElementById("bookList");
+  if(!n){return}
+  let data=subjects[n]||[];
+  let filtered=data.filter(s=>{
+    let groupMatch=s[1]==="لازمی" ||
+      (group==="pre-medical" && (s[1]==="پری میڈیکل"||s[1]==="سائنس")) ||
+      (group==="pre-engineering" && (s[1]==="پری انجینئرنگ"||s[1]==="سائنس")) ||
+      (group==="ics" && s[1]==="آئی سی ایس") ||
+      (group==="general-science" && s[1]==="جنرل سائنس") ||
+      (group==="arts" && s[1]==="آرٹس") ||
+      (group==="commerce" && s[1]==="کامرس");
+    return groupMatch && (selected==="all"||s[0]===selected);
+  });
+
+  let html="";
+  filtered.forEach(s=>{
+    const key=n+"-"+s[0];
+    const url=bookURLs[key];
+    html+=`<div class="book-item">
+      <div class="book-icon">📘</div>
+      <div class="book-info">
+        <strong>${s[0]}</strong>
+        <small>${classes[Number(document.getElementById("bookClass").value)]} | ${s[1]}</small>
+      </div>
+      ${url?`<button class="btn" onclick="openBook('${key}')">پڑھیں</button>
+      <button class="btn secondary" onclick="downloadBook('${key}')">ڈاؤن لوڈ</button>`
+      :`<button class="btn secondary" onclick="alert('اس کتاب کی اصل PDF ابھی شامل نہیں کی گئی۔')">PDF دستیاب نہیں</button>`}
+    </div>`;
+  });
+  customBooks.forEach(b=>{
+    html+=`<div class="book-item">
+      <div class="book-icon">📕</div>
+      <div class="book-info"><strong>${b.name}</strong><small>اپ لوڈ کردہ کتاب</small></div>
+      <button class="btn" onclick="openCustomBook(${b.id})">کھولیں</button>
+    </div>`;
+  });
+  list.innerHTML=html||"<p>اس گروپ کے لیے ابھی کتابیں درج نہیں ہیں۔</p>";
+}
+
+function addCustomBook(){
+  const name=document.getElementById("customBookName").value.trim();
+  const file=document.getElementById("customBookFile").files[0];
+  if(!name||!file){alert("کتاب کا نام اور PDF منتخب کریں۔");return}
+  const id=Date.now();
+  customBooks.push({id,name,file});
+  renderBooks();
+  alert("کتاب اس سیشن کی فہرست میں شامل ہوگئی۔");
+}
+function openCustomBook(id){
+  const b=customBooks.find(x=>x.id===id);
+  if(b)window.open(URL.createObjectURL(b.file),"_blank");
+}
+function openBook(key){
+  if(bookURLs[key])window.open(bookURLs[key],"_blank");
+}
+function downloadBook(key){
+  if(bookURLs[key]){
+    const a=document.createElement("a");
+    a.href=bookURLs[key];a.download=key+".pdf";a.click();
+  }
+}
+
 async function readPDF(){
- let f=document.getElementById("pdf").files[0];
- if(!f)return alert("PDF منتخب کریں");
- if(!window.pdfjsLib)return alert("PDF reader load نہیں ہوا، انٹرنیٹ چیک کریں");
- pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
- let reader=new FileReader();
- reader.onload=async()=>{
- try{
- let pdf=await pdfjsLib.getDocument(new Uint8Array(reader.result)).promise;
- let all="";
- for(let i=1;i<=pdf.numPages;i++){
-  let pg=await pdf.getPage(i);
-  let content=await pg.getTextContent();
-  all+=content.items.map(x=>x.str).join(" ")+"\n\n";
- }
- document.getElementById("bookText").value=all;
- alert("PDF text extracted. OCR errors may occur.");
- }catch(e){alert("PDF سے متن نہیں نکلا۔ ممکن ہے PDF scanned ہو۔")}
+  const file=document.getElementById("pdfFile").files[0];
+  const status=document.getElementById("pdfStatus");
+  if(!file){alert("PDF فائل منتخب کریں");return}
+  status.textContent="PDF منتخب ہوگئی: "+file.name+
+    "\nاس سادہ انٹرفیس میں PDF کا متن خودکار طور پر پڑھنے کے لیے PDF.js شامل کرنا ہوگا۔";
+  uploadedPDFText="";
+}
+
+function generateMaterial(){
+  const type=document.getElementById("materialType").value;
+  const subject=document.getElementById("materialSubject").value;
+  const chapter=document.getElementById("materialChapter").value;
+  const source=document.getElementById("materialSource").value;
+  const lang=document.getElementById("materialLanguage").value;
+  const output=document.getElementById("materialOutput");
+  if(!subject||!chapter){alert("مضمون اور باب درج کریں");return}
+  if(!source.trim()){
+    output.textContent="کتاب کا متن دستیاب نہیں۔ پہلے کتاب سے متعلق متن شامل کریں یا مستقبل میں منسلک AI اور کتابی ڈیٹا استعمال کریں۔";
+    return;
+  }
+  output.textContent=
+    "قسم: "+type+"\nمضمون: "+subject+"\nباب: "+chapter+
+    "\nزبان: "+lang+"\n\nآپ کا فراہم کردہ کتابی متن:\n"+source+
+    "\n\nنوٹ: حقیقی نوٹس، سوالات اور جوابات تیار کرنے کے لیے AI بیک اینڈ منسلک کرنا ضروری ہے۔";
+}
+
+function showScheme(){
+  const board=document.getElementById("schemeBoard").value;
+  const cls=document.getElementById("schemeClass").selectedOptions[0].text;
+  const sub=document.getElementById("schemeSubject").value;
+  document.getElementById("schemeOutput").textContent=
+    "جماعت: "+cls+"\nبورڈ: "+board+"\nمضمون: "+sub+
+    "\n\nاسکیم کا مستند ڈیٹا ابھی شامل نہیں۔ سرکاری اسکیم کی تصدیق کے بعد ہی اصل تقسیم دکھائی جائے گی۔";
+}
+
+function makePaper(){
+  const subject=document.getElementById("paperSubject").value||"____________";
+  const cls=document.getElementById("paperClass").selectedOptions[0].text;
+  const exam=document.getElementById("paperExam").value;
+  const marks=document.getElementById("paperMarks").value;
+  const time=document.getElementById("paperTime").value;
+  const mcq=document.getElementById("paperMCQ").value;
+  const short=document.getElementById("paperShort").value;
+  const long=document.getElementById("paperLong").value;
+  document.getElementById("paperPreview").innerHTML=`
+    <img class="watermark watermarkImg" src="${logoData||""}">
+    <div class="paper-content">
+    <h2>The Risen High School</h2>
+    <h3>${exam}</h3>
+    <p>نام: ____________________ رول نمبر: __________________</p>
+    <p>جماعت: ${cls} | مضمون: ${subject}</p>
+    <p>وقت: ${time} | کل نمبر: ${marks}</p>
+    <hr>
+    <h3>حصہ اول: کثیر الانتخابی سوالات</h3>
+    <p>${escapeHTML(mcq).replace(/\n/g,"<br>")}</p>
+    <h3>حصہ دوم: مختصر سوالات</h3>
+    <p>${escapeHTML(short).replace(/\n/g,"<br>")}</p>
+    <h3>حصہ سوم: تفصیلی سوالات</h3>
+    <p>${escapeHTML(long).replace(/\n/g,"<br>")}</p>
+    </div>`;
+}
+function escapeHTML(s){
+ return String(s).replace(/[&<>"']/g,c=>({
+ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+ }[c]));
+}
+
+function makeBubble(){
+  const count=Math.min(100,Math.max(1,Number(document.getElementById("bubbleCount").value)||50));
+  let html=`<img class="watermark watermarkImg" src="${logoData||""}">
+  <div class="paper-content">
+  <h2>The Risen High School</h2><h3>MCQs جوابی شیٹ</h3>
+  <p>نام: ${escapeHTML(document.getElementById("studentName").value)}
+  رول نمبر: ${escapeHTML(document.getElementById("rollNumber").value)}</p>
+  <p>جماعت: ${document.getElementById("bubbleClass").selectedOptions[0].text}
+  مضمون: ${escapeHTML(document.getElementById("bubbleSubject").value)}</p>
+  <table><tr><th>نمبر</th><th>A</th><th>B</th><th>C</th><th>D</th></tr>`;
+  for(let i=1;i<=count;i++){
+    html+=`<tr><td>${i}</td><td>◯</td><td>◯</td><td>◯</td><td>◯</td></tr>`;
+  }
+  html+="</table></div>";
+  document.getElementById("bubbleOutput").innerHTML=html;
+}
+
+function printPaper(){printSection("paper")}
+function printBubble(){printSection("bubble")}
+function printSection(id){
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("printing"));
+  document.getElementById(id).classList.add("printing");
+  window.print();
+  document.getElementById(id).classList.remove("printing");
+}
+function printOutput(id){
+  const content=document.getElementById(id).innerHTML;
+  const w=window.open("","_blank");
+  w.document.write(`<html lang="ur" dir="rtl"><head><meta charset="UTF-8">
+  <style>@font-face{font-family:Jameel;src:url('https://cdn.jsdelivr.net/gh/tariq-abdullah/urdu-web-font-CDN/JameelNooriNastaleeq.woff')}
+  body{font-family:Jameel,Arial;padding:25px}</style></head><body>${content}</body></html>`);
+  w.document.close();w.print();
+}
+
+let logoData=localStorage.getItem("risenLogo")||"";
+function setLogo(){
+  document.getElementById("schoolLogo").src=logoData||
+    "data:image/svg+xml,"+encodeURIComponent(
+      '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100%" height="100%" rx="50" fill="white"/><text x="50%" y="58%" text-anchor="middle" font-size="35" fill="#176b55">R</text></svg>'
+    );
+  document.querySelectorAll(".watermarkImg").forEach(i=>i.src=logoData);
+}
+setLogo();
+
+document.getElementById("logoInput").addEventListener("change",e=>{
+ const f=e.target.files[0];if(!f)return;
+ const r=new FileReader();
+ r.onload=()=>{
+  logoData=r.result;
+  localStorage.setItem("risenLogo",logoData);
+  setLogo();
  };
- reader.readAsArrayBuffer(f);
-}
+ r.readAsDataURL(f);
+});
 
-/* MATERIAL CREATION */
-function generate(){
- let type=document.getElementById("type").value;
- let chapter=document.getElementById("chapter").value||"Chapter";
- let topic=document.getElementById("topic").value;
- let qty=Math.min(100,Math.max(1,+document.getElementById("qty").value||10));
- let text=document.getElementById("bookText").value;
- let subject=document.getElementById("subject").value;
- let cls=classEl.value;
- let body="";
- if(type==="notes"){
-  body=`<h3>${esc(chapter)}</h3><p>Class: ${esc(cls)} | Subject: ${esc(subject)}</p>
-  <p>${esc(topic)}</p><h3>Book Text</h3><p>${esc(text)}</p>`;
- }
- else if(type==="summary"){
-  body=`<h3>Summary — ${esc(chapter)}</h3><p>${esc(topic)}</p><p>${esc(text)}</p>`;
- }
- else if(type==="definitions"){
-  body=`<h3>Definitions</h3><p>${esc(topic)}</p><p>${esc(text)}</p>`;
- }
- else if(type==="mcqs"){
-  body="<h3>Multiple Choice Questions</h3>";
-  for(let i=1;i<=qty;i++)body+=`<p>${i}. ${esc(topic||chapter)}<br>A) ______ B) ______ C) ______ D) ______</p>`;
- }
- else if(type==="short"){
-  body="<h3>Short Questions</h3>";
-  for(let i=1;i<=qty;i++)body+=`<p>${i}. ${esc(topic||chapter)} — Write a short answer.</p>`;
- }
- else if(type==="long"){
-  body="<h3>Long Questions</h3>";
-  for(let i=1;i<=qty;i++)body+=`<p>${i}. Explain in detail: ${esc(topic||chapter)}.</p>`;
- }
- else{
-  body=`<h3>Chapter Test</h3><p>MCQs: ____________________</p>
-  <h3>Short Questions</h3><p>${esc(topic)}</p>
-  <h3>Long Questions</h3><p>Explain the chapter in detail.</p>`;
- }
- outputHTML=page(type.toUpperCase()+" — "+chapter,body);
- document.getElementById("output").innerHTML=outputHTML;
-}
-
-/* PAPER */
-function createPaper(){
- let body=`<p>Class: ${esc(classEl.value)} | Subject: ${esc(document.getElementById("subject").value)}</p>
- <p>Roll Number: ${esc(document.getElementById("pRoll").value)}</p>
- <p>Time: ${esc(document.getElementById("pTime").value)} | Marks: ${esc(document.getElementById("pMarks").value)}</p>
- <p>${esc(document.getElementById("pInstructions").value)}</p>
- <h3>Section A — MCQs</h3><p>${esc(document.getElementById("pMCQs").value).replace(/\n/g,"<br>")}</p>
- <h3>Section B — Short Questions</h3><p>${esc(document.getElementById("pShort").value).replace(/\n/g,"<br>")}</p>
- <h3>Section C — Long Questions</h3><p>${esc(document.getElementById("pLong").value).replace(/\n/g,"<br>")}</p>`;
- outputHTML=page(document.getElementById("pTitle").value,body);
- document.getElementById("output").innerHTML=outputHTML;
-}
-
-/* BUBBLE SHEET */
-function bubbleSheet(){
- let n=Math.min(100,Math.max(1,+document.getElementById("bubbleQty").value||20));
- let body=`<p>Student: ${esc(document.getElementById("student").value)}</p>
- <p>Roll: ${esc(document.getElementById("roll").value)}</p>
- <p>Fill only one bubble for each question.</p>
- <table style="width:100%;border-collapse:collapse;text-align:center">
- <tr><th>Q</th><th>A</th><th>B</th><th>C</th><th>D</th></tr>`;
- for(let i=1;i<=n;i++)body+=`<tr style="height:32px"><td>${i}</td><td>◯</td><td>◯</td><td>◯</td><td>◯</td></tr>`;
- body+="</table>";
- outputHTML=page("MCQ Answer Sheet",body);
- document.getElementById("output").innerHTML=outputHTML;
-}
-
-/* SCHEME SAVE */
-function saveScheme(){
- let obj={title:document.getElementById("schemeTitle").value,text:document.getElementById("schemeText").value};
- localStorage.setItem("risenScheme",JSON.stringify(obj));
- alert("Scheme saved on this device");
-}
-function loadScheme(){
- let s=localStorage.getItem("risenScheme");
- if(!s)return alert("No saved scheme found");
- let o=JSON.parse(s);
- document.getElementById("schemeTitle").value=o.title;
- document.getElementById("schemeText").value=o.text;
-}
-function schemePage(){
- let title=document.getElementById("schemeTitle").value||"Pairing Scheme";
- let text=document.getElementById("schemeText").value;
- outputHTML=page(title,`<p>${esc(text).replace(/\n/g,"<br>")}</p>`);
- document.getElementById("output").innerHTML=outputHTML;
-}
-function printPages(){
- if(!outputHTML)return alert("پہلے مواد تیار کریں");
- window.print();
+let english=false;
+function toggleLanguage(){
+ english=!english;
+ document.getElementById("langButton").textContent=english?"اردو":"English";
+ document.documentElement.lang=english?"en":"ur";
+ document.documentElement.dir=english?"ltr":"rtl";
+ alert(english?
+ "یہ ابتدائی زبان سوئچ ہے۔ مکمل انگریزی ترجمہ اگلے مرحلے میں تمام لیبلز کے لیے شامل کرنا ہوگا۔":
+ "اردو لے آؤٹ منتخب ہوگیا۔");
 }
 </script>
 </body>
