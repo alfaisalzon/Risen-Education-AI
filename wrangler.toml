@@ -1,0 +1,7 @@
+
+name = "risen-education-ai"
+main = "worker.js"
+compatibility_date = "2026-11-22"
+
+[ai]
+binding = "AI"
