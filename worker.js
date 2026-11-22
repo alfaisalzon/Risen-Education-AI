@@ -1,4 +1,3 @@
-
 const PECTAA_BOOKS_URL =
   "https://pectaa.edu.pk/curriculum-compliance/";
 
@@ -6,6 +5,7 @@ const PECTAA_FALLBACK_URL =
   "https://pectaa.edu.pk/books-and-publications/";
 
 const MODEL = "@cf/meta/llama-3.1-8b-instruct";
+const WORKER_VERSION = "RISEN-BOOKS-V2-2026-11-22";
 
 export default {
   async fetch(request, env) {
@@ -16,11 +16,12 @@ export default {
     };
 
     const respond = (data, status = 200) =>
-      new Response(JSON.stringify(data), {
+      new Response(JSON.stringify(data, null, 2), {
         status,
         headers: {
           ...cors,
-          "Content-Type": "application/json; charset=utf-8"
+          "Content-Type": "application/json; charset=utf-8",
+          "Cache-Control": "no-store"
         }
       });
 
@@ -29,28 +30,25 @@ export default {
     }
 
     const url = new URL(request.url);
+    const path = url.pathname;
 
-    // HEALTH CHECK
-    if (
-      url.pathname === "/" ||
-      url.pathname === "/api/health"
-    ) {
+    // VERSION / HEALTH CHECK
+    if (path === "/" || path === "/api/health") {
       return respond({
         success: true,
-        message: "Risen Education AI Worker is running."
+        worker: "Risen Education AI",
+        version: WORKER_VERSION,
+        message: "Worker is running."
       });
     }
 
     // OFFICIAL BOOK CATALOG
-    if (
-      url.pathname === "/api/books" &&
-      request.method === "GET"
-    ) {
+    if (path === "/api/books" && request.method === "GET") {
       try {
         let response = await fetch(PECTAA_BOOKS_URL, {
           headers: {
             "Accept": "text/html",
-            "User-Agent": "Risen-Education-AI/1.0"
+            "User-Agent": "Mozilla/5.0 RisenEducationAI"
           }
         });
 
@@ -59,7 +57,8 @@ export default {
         if (!response.ok) {
           response = await fetch(PECTAA_FALLBACK_URL, {
             headers: {
-              "Accept": "text/html"
+              "Accept": "text/html",
+              "User-Agent": "Mozilla/5.0 RisenEducationAI"
             }
           });
 
@@ -69,55 +68,91 @@ export default {
         if (!response.ok) {
           return respond({
             success: false,
+            version: WORKER_VERSION,
             error: "PECTAA catalog could not be loaded.",
-            status: response.status
+            httpStatus: response.status
           }, 502);
         }
 
         const html = await response.text();
 
-        const decodeHTML = (value) =>
-          value
-            .replace(/&amp;/g, "&")
-            .replace(/&nbsp;/g, " ")
-            .replace(/&#8217;|&rsquo;/g, "'")
-            .replace(/&#8216;|&lsquo;/g, "'")
-            .replace(/&#038;/g, "&")
-            .replace(/&quot;/g, '"')
-            .replace(/&#39;/g, "'")
-            .replace(/&lt;/g, "<")
-            .replace(/&gt;/g, ">");
+        function decodeHTML(value) {
+          return value
+            .replace(/&amp;/gi, "&")
+            .replace(/&nbsp;/gi, " ")
+            .replace(/&#8217;|&rsquo;/gi, "'")
+            .replace(/&#8216;|&lsquo;/gi, "'")
+            .replace(/&#038;/gi, "&")
+            .replace(/&quot;/gi, '"')
+            .replace(/&#39;/gi, "'")
+            .replace(/&lt;/gi, "<")
+            .replace(/&gt;/gi, ">")
+            .replace(/&#(\d+);/g, (_, n) =>
+              String.fromCharCode(Number(n))
+            );
+        }
 
-        const cleanText = (value) =>
-          decodeHTML(value.replace(/<[^>]*>/g, " "))
+        function cleanText(value) {
+          return decodeHTML(
+            value
+              .replace(/<script[\s\S]*?<\/script>/gi, " ")
+              .replace(/<style[\s\S]*?<\/style>/gi, " ")
+              .replace(/<[^>]*>/g, " ")
+          )
             .replace(/\s+/g, " ")
             .trim();
+        }
 
         function identifyGrade(title) {
           const t = title.toLowerCase();
 
+          // Combined classes
           if (
-            /class[\s-]*ix[\s-]*x|grade[\s-]*9[\s-]*10|9[\s-]*[-–][\s-]*10/.test(t)
+            /class\s*(ix|9)\s*[-–]\s*(x|10)/i.test(t) ||
+            /grade\s*9\s*[-–]\s*10/i.test(t) ||
+            /\b9\s*[-–]\s*10\b/.test(t)
           ) return "9-10";
 
           if (
-            /class[\s-]*xi[\s-]*xii|grade[\s-]*11[\s-]*12|11[\s-]*[-–][\s-]*12/.test(t)
+            /class\s*(xi|11)\s*[-–]\s*(xii|12)/i.test(t) ||
+            /grade\s*11\s*[-–]\s*12/i.test(t) ||
+            /\b11\s*[-–]\s*12\b/.test(t)
           ) return "11-12";
 
+          // Class 9
           if (
-            /\b(grade[\s-]*9|class[\s-]*ix)\b|\b9\b/.test(t)
+            /\bclass\s*ix\b/.test(t) ||
+            /\bgrade\s*9\b/.test(t) ||
+            /\bclass\s*9\b/.test(t) ||
+            /\b9th\b/.test(t) ||
+            /\b(?:physics|chemistry|biology|computer|math|mathematics|urdu|english)\s*9\b/.test(t)
           ) return "9";
 
+          // Class 10
           if (
-            /\b(grade[\s-]*10|class[\s-]*x)\b|\b10\b/.test(t)
+            /\bclass\s*x\b/.test(t) ||
+            /\bgrade\s*10\b/.test(t) ||
+            /\bclass\s*10\b/.test(t) ||
+            /\b10th\b/.test(t) ||
+            /\b(?:physics|chemistry|biology|computer|math|mathematics|urdu|english)\s*10\b/.test(t)
           ) return "10";
 
+          // Class 11
           if (
-            /\b(grade[\s-]*11|class[\s-]*xi)\b|\b11\b/.test(t)
+            /\bclass\s*xi\b/.test(t) ||
+            /\bgrade\s*11\b/.test(t) ||
+            /\bclass\s*11\b/.test(t) ||
+            /\b11th\b/.test(t) ||
+            /\b(?:physics|chemistry|biology|computer|math|mathematics|urdu|english)\s*11\b/.test(t)
           ) return "11";
 
+          // Class 12
           if (
-            /\b(grade[\s-]*12|class[\s-]*xii)\b|\b12\b/.test(t)
+            /\bclass\s*xii\b/.test(t) ||
+            /\bgrade\s*12\b/.test(t) ||
+            /\bclass\s*12\b/.test(t) ||
+            /\b12th\b/.test(t) ||
+            /\b(?:physics|chemistry|biology|computer|math|mathematics|urdu|english)\s*12\b/.test(t)
           ) return "12";
 
           return "unverified";
@@ -127,11 +162,13 @@ export default {
           const t = title.toLowerCase();
 
           if (
-            /\b(um|urdu medium)\b/.test(t)
+            /\b(um|urdu medium)\b/.test(t) ||
+            /اردو میڈیم/.test(t)
           ) return "UM";
 
           if (
-            /\b(em|english medium)\b/.test(t)
+            /\b(em|english medium)\b/.test(t) ||
+            /english medium/.test(t)
           ) return "EM";
 
           return "unverified";
@@ -148,21 +185,20 @@ export default {
         function identifyType(title) {
           const t = title.toLowerCase();
 
-          if (/pairing scheme|pairing schemes/.test(t)) {
+          if (/pairing scheme|pairing schemes/.test(t))
             return "pairing-scheme";
-          }
 
-          if (/smart syllabus|deleted topics|alp/.test(t)) {
+          if (/smart syllabus|deleted topics|alp|accelerated learning/.test(t))
             return "syllabus";
-          }
 
-          if (/model paper|model papers/.test(t)) {
+          if (/model paper|model papers/.test(t))
             return "model-paper";
-          }
 
-          if (/practical video|practical notebook/.test(t)) {
+          if (/practical video|practical notebook|pnb/.test(t))
             return "practical";
-          }
+
+          if (/curriculum|scheme of studies/.test(t))
+            return "curriculum";
 
           return "textbook";
         }
@@ -171,22 +207,33 @@ export default {
           const t = title.toLowerCase();
 
           if (
-            /tarjuma|islamiat|islamiyat|islamic studies|masihi taleem/.test(t)
+            /tarjuma|islamiat|islamiyat|islamic studies|masihi taleem|christianity|akhlaqiat/.test(t)
           ) return "compulsory";
 
           if (
-            /urdu|english|pakistan studies|mutalia pakistan/.test(t)
+            /\burdu\b|english|pakistan studies|mutalia pakistan/.test(t)
           ) return "compulsory";
 
           if (
-            /biology|physics|chemistry|computer|mathematics|math/.test(t)
+            /biology|physics|chemistry|computer|mathematics|math|science|entrepreneurship/.test(t)
           ) return "group-subject";
 
           if (
-            /economics|statistics|civics|psychology|education|punjabi|farsi/.test(t)
+            /economics|statistics|civics|psychology|education|punjabi|farsi|geography|history|home economics|agriculture/.test(t)
           ) return "elective";
 
           return "unverified";
+        }
+
+        function isNavigationTitle(title) {
+          const t = title.toLowerCase();
+
+          return (
+            !title ||
+            title.length < 2 ||
+            /^(home|overview|about us|vision|mission|contact|contact us|board of governors|downloads|download|read more|click here|view|login|search|menu|news|events|gallery|career|careers|tender|tenders|notification|notifications|advertisement|advertisements)$/i.test(t) ||
+            /read more|click here|view details|learn more|visit website/i.test(t)
+          );
         }
 
         const anchorRegex =
@@ -194,12 +241,22 @@ export default {
 
         const books = [];
         let match;
+        let anchorsScanned = 0;
+        let allowedLinks = 0;
+        let rejectedNavigation = 0;
 
         while ((match = anchorRegex.exec(html)) !== null) {
+          anchorsScanned++;
+
           const href = decodeHTML(match[2]).trim();
           const title = cleanText(match[3]);
 
           if (!href || !title) continue;
+
+          if (isNavigationTitle(title)) {
+            rejectedNavigation++;
+            continue;
+          }
 
           let link;
 
@@ -211,25 +268,30 @@ export default {
 
           const host = link.hostname.toLowerCase();
 
-          const allowed =
+          const allowedHost =
             host === "drive.google.com" ||
+            host.endsWith(".google.com") ||
             host === "pctb.punjab.gov.pk" ||
-            host === "pectaa.edu.pk";
+            host.endsWith(".pctb.punjab.gov.pk") ||
+            host === "pectaa.edu.pk" ||
+            host.endsWith(".pectaa.edu.pk");
 
-          if (!allowed) continue;
+          if (!allowedHost) continue;
 
-          const isFile =
-            host === "drive.google.com" &&
-            /\/file\/d\//.test(link.pathname);
+          const isDriveLink =
+            host.includes("google.com") &&
+            (
+              /\/file\/d\//.test(link.pathname) ||
+              /\/open/.test(link.pathname) ||
+              link.searchParams.has("id")
+            );
 
           const isPDF =
             /\.pdf($|\?)/i.test(link.pathname + link.search);
 
-          if (!isFile && !isPDF) continue;
+          if (!isDriveLink && !isPDF) continue;
 
-          if (
-            /download|read more|click here|view|home|contact/i.test(title)
-          ) continue;
+          allowedLinks++;
 
           const type = identifyType(title);
 
@@ -245,22 +307,24 @@ export default {
           });
         }
 
+        // Remove duplicates
         const unique = [
           ...new Map(
             books.map(book => [book.url, book])
           ).values()
         ];
 
+        // Filters
         const gradeFilter = url.searchParams.get("grade");
         const mediumFilter = url.searchParams.get("medium");
         const typeFilter = url.searchParams.get("type");
+        const categoryFilter = url.searchParams.get("category");
 
         let filtered = unique;
 
         if (gradeFilter) {
           filtered = filtered.filter(book =>
-            book.grade === gradeFilter ||
-            book.grade === `${gradeFilter}-${Number(gradeFilter) + 1}`
+            book.grade === gradeFilter
           );
         }
 
@@ -276,37 +340,57 @@ export default {
           );
         }
 
+        if (categoryFilter) {
+          filtered = filtered.filter(book =>
+            book.category === categoryFilter
+          );
+        }
+
         return respond({
           success: true,
+          version: WORKER_VERSION,
           source,
           total: unique.length,
           filteredTotal: filtered.length,
           unverified: unique.filter(book =>
             book.grade === "unverified" ||
-            book.medium === "unverified"
+            book.medium === "unverified" ||
+            book.category === "unverified"
           ).length,
+
+          diagnostics: {
+            anchorsScanned,
+            allowedLinks,
+            rejectedNavigation,
+            uniqueBooks: unique.length
+          },
+
           message:
-            "Official links retrieved. Unverified class, medium and edition details require confirmation.",
+            "Official links collected. Class, medium and edition should be verified against the official book.",
+
           filters: {
             grade: gradeFilter || "all",
             medium: mediumFilter || "all",
-            type: typeFilter || "all"
+            type: typeFilter || "all",
+            category: categoryFilter || "all"
           },
+
           books: filtered
         });
 
       } catch (error) {
         return respond({
           success: false,
+          version: WORKER_VERSION,
           error: "Book catalog request failed.",
-          detail: error.message
+          detail: String(error.message || error)
         }, 500);
       }
     }
 
     // AI MATERIAL GENERATION
     if (
-      url.pathname === "/api/generate-material" &&
+      path === "/api/generate-material" &&
       request.method === "POST"
     ) {
       try {
@@ -327,6 +411,7 @@ export default {
         ) {
           return respond({
             success: false,
+            version: WORKER_VERSION,
             error: "Subject, chapter and sourceText are required."
           }, 400);
         }
@@ -355,21 +440,25 @@ ${sourceText.slice(0, 12000)}
 
         return respond({
           success: true,
+          version: WORKER_VERSION,
           result: result.response || result
         });
 
       } catch (error) {
         return respond({
           success: false,
+          version: WORKER_VERSION,
           error: "Material generation failed.",
-          detail: error.message
+          detail: String(error.message || error)
         }, 500);
       }
     }
 
     return respond({
       success: false,
-      error: "API route not found."
+      version: WORKER_VERSION,
+      error: "API route not found.",
+      path
     }, 404);
   }
 };
