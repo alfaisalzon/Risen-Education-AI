@@ -1,6 +1,11 @@
 
 const PECTAA_BOOKS_URL =
+  "https://pectaa.edu.pk/curriculum-compliance/";
+
+const PECTAA_FALLBACK_URL =
   "https://pectaa.edu.pk/books-and-publications/";
+
+const MODEL = "@cf/meta/llama-3.1-8b-instruct";
 
 export default {
   async fetch(request, env) {
@@ -42,88 +47,259 @@ export default {
       request.method === "GET"
     ) {
       try {
-        const response = await fetch(PECTAA_BOOKS_URL, {
+        let response = await fetch(PECTAA_BOOKS_URL, {
           headers: {
-            "Accept": "text/html"
+            "Accept": "text/html",
+            "User-Agent": "Risen-Education-AI/1.0"
           }
         });
+
+        let source = PECTAA_BOOKS_URL;
+
+        if (!response.ok) {
+          response = await fetch(PECTAA_FALLBACK_URL, {
+            headers: {
+              "Accept": "text/html"
+            }
+          });
+
+          source = PECTAA_FALLBACK_URL;
+        }
 
         if (!response.ok) {
           return respond({
             success: false,
-            error: "Official book catalog could not be loaded.",
-            officialSource: PECTAA_BOOKS_URL
+            error: "PECTAA catalog could not be loaded.",
+            status: response.status
           }, 502);
         }
 
         const html = await response.text();
 
-        const books = [];
-        const anchorRegex =
-          /<a\b[^>]*href=(["'])(.*?)\1[^>]*>([\s\S]*?)<\/a>/gi;
-
-        let match;
-
-        while ((match = anchorRegex.exec(html)) !== null) {
-          const href = match[2]
-            .replace(/&amp;/g, "&");
-
-          const title = match[3]
-            .replace(/<[^>]*>/g, " ")
+        const decodeHTML = (value) =>
+          value
+            .replace(/&amp;/g, "&")
             .replace(/&nbsp;/g, " ")
-            .replace(/&#8217;/g, "'")
+            .replace(/&#8217;|&rsquo;/g, "'")
+            .replace(/&#8216;|&lsquo;/g, "'")
             .replace(/&#038;/g, "&")
+            .replace(/&quot;/g, '"')
+            .replace(/&#39;/g, "'")
+            .replace(/&lt;/g, "<")
+            .replace(/&gt;/g, ">");
+
+        const cleanText = (value) =>
+          decodeHTML(value.replace(/<[^>]*>/g, " "))
             .replace(/\s+/g, " ")
             .trim();
 
-          if (!title || !href) continue;
+        function identifyGrade(title) {
+          const t = title.toLowerCase();
+
+          if (
+            /class[\s-]*ix[\s-]*x|grade[\s-]*9[\s-]*10|9[\s-]*[-–][\s-]*10/.test(t)
+          ) return "9-10";
+
+          if (
+            /class[\s-]*xi[\s-]*xii|grade[\s-]*11[\s-]*12|11[\s-]*[-–][\s-]*12/.test(t)
+          ) return "11-12";
+
+          if (
+            /\b(grade[\s-]*9|class[\s-]*ix)\b|\b9\b/.test(t)
+          ) return "9";
+
+          if (
+            /\b(grade[\s-]*10|class[\s-]*x)\b|\b10\b/.test(t)
+          ) return "10";
+
+          if (
+            /\b(grade[\s-]*11|class[\s-]*xi)\b|\b11\b/.test(t)
+          ) return "11";
+
+          if (
+            /\b(grade[\s-]*12|class[\s-]*xii)\b|\b12\b/.test(t)
+          ) return "12";
+
+          return "unverified";
+        }
+
+        function identifyMedium(title) {
+          const t = title.toLowerCase();
+
+          if (
+            /\b(um|urdu medium)\b/.test(t)
+          ) return "UM";
+
+          if (
+            /\b(em|english medium)\b/.test(t)
+          ) return "EM";
+
+          return "unverified";
+        }
+
+        function identifyEdition(title) {
+          const match = title.match(
+            /20\d{2}\s*[-–/]\s*\d{2,4}|20\d{2}/
+          );
+
+          return match ? match[0] : "unverified";
+        }
+
+        function identifyType(title) {
+          const t = title.toLowerCase();
+
+          if (/pairing scheme|pairing schemes/.test(t)) {
+            return "pairing-scheme";
+          }
+
+          if (/smart syllabus|deleted topics|alp/.test(t)) {
+            return "syllabus";
+          }
+
+          if (/model paper|model papers/.test(t)) {
+            return "model-paper";
+          }
+
+          if (/practical video|practical notebook/.test(t)) {
+            return "practical";
+          }
+
+          return "textbook";
+        }
+
+        function identifyCategory(title) {
+          const t = title.toLowerCase();
+
+          if (
+            /tarjuma|islamiat|islamiyat|islamic studies|masihi taleem/.test(t)
+          ) return "compulsory";
+
+          if (
+            /urdu|english|pakistan studies|mutalia pakistan/.test(t)
+          ) return "compulsory";
+
+          if (
+            /biology|physics|chemistry|computer|mathematics|math/.test(t)
+          ) return "group-subject";
+
+          if (
+            /economics|statistics|civics|psychology|education|punjabi|farsi/.test(t)
+          ) return "elective";
+
+          return "unverified";
+        }
+
+        const anchorRegex =
+          /<a\b[^>]*href=(["'])(.*?)\1[^>]*>([\s\S]*?)<\/a>/gi;
+
+        const books = [];
+        let match;
+
+        while ((match = anchorRegex.exec(html)) !== null) {
+          const href = decodeHTML(match[2]).trim();
+          const title = cleanText(match[3]);
+
+          if (!href || !title) continue;
 
           let link;
+
           try {
-            link = new URL(href, PECTAA_BOOKS_URL);
+            link = new URL(href, source);
           } catch {
             continue;
           }
 
+          const host = link.hostname.toLowerCase();
+
           const allowed =
-            link.hostname === "drive.google.com" ||
-            link.hostname === "pctb.punjab.gov.pk" ||
-            link.hostname === "pectaa.edu.pk";
+            host === "drive.google.com" ||
+            host === "pctb.punjab.gov.pk" ||
+            host === "pectaa.edu.pk";
 
           if (!allowed) continue;
 
+          const isFile =
+            host === "drive.google.com" &&
+            /\/file\/d\//.test(link.pathname);
+
+          const isPDF =
+            /\.pdf($|\?)/i.test(link.pathname + link.search);
+
+          if (!isFile && !isPDF) continue;
+
           if (
-            /home|about|contact|privacy|login|subscribe/i.test(title)
+            /download|read more|click here|view|home|contact/i.test(title)
           ) continue;
+
+          const type = identifyType(title);
 
           books.push({
             title,
             url: link.href,
-            source: "PECTAA"
+            source: "PECTAA",
+            grade: identifyGrade(title),
+            medium: identifyMedium(title),
+            edition: identifyEdition(title),
+            category: identifyCategory(title),
+            type
           });
         }
 
-        const uniqueBooks = [
+        const unique = [
           ...new Map(
             books.map(book => [book.url, book])
           ).values()
         ];
 
+        const gradeFilter = url.searchParams.get("grade");
+        const mediumFilter = url.searchParams.get("medium");
+        const typeFilter = url.searchParams.get("type");
+
+        let filtered = unique;
+
+        if (gradeFilter) {
+          filtered = filtered.filter(book =>
+            book.grade === gradeFilter ||
+            book.grade === `${gradeFilter}-${Number(gradeFilter) + 1}`
+          );
+        }
+
+        if (mediumFilter) {
+          filtered = filtered.filter(book =>
+            book.medium === mediumFilter.toUpperCase()
+          );
+        }
+
+        if (typeFilter) {
+          filtered = filtered.filter(book =>
+            book.type === typeFilter
+          );
+        }
+
         return respond({
           success: true,
-          source: PECTAA_BOOKS_URL,
-          total: uniqueBooks.length,
+          source,
+          total: unique.length,
+          filteredTotal: filtered.length,
+          unverified: unique.filter(book =>
+            book.grade === "unverified" ||
+            book.medium === "unverified"
+          ).length,
           message:
-            "Official catalog links retrieved. Verify class, medium and edition before use.",
-          books: uniqueBooks
+            "Official links retrieved. Unverified class, medium and edition details require confirmation.",
+          filters: {
+            grade: gradeFilter || "all",
+            medium: mediumFilter || "all",
+            type: typeFilter || "all"
+          },
+          books: filtered
         });
 
       } catch (error) {
         return respond({
           success: false,
           error: "Book catalog request failed.",
-          detail: error.message,
-          officialSource: PECTAA_BOOKS_URL
+          detail: error.message
         }, 500);
       }
     }
@@ -143,11 +319,15 @@ export default {
           task
         } = body;
 
-        if (!subject || !chapter || !sourceText) {
+        if (
+          !subject ||
+          !chapter ||
+          !sourceText ||
+          typeof sourceText !== "string"
+        ) {
           return respond({
             success: false,
-            error:
-              "Subject, chapter and sourceText are required."
+            error: "Subject, chapter and sourceText are required."
           }, 400);
         }
 
@@ -157,6 +337,7 @@ You are an educational assistant for The Risen High School.
 Use ONLY the supplied textbook content.
 Do not invent textbook facts.
 If information is missing, clearly say so.
+Use clear Urdu when requested.
 Use age-appropriate educational explanations.
 
 Subject: ${subject}
@@ -164,16 +345,13 @@ Chapter: ${chapter}
 Task: ${task || "Create notes and questions"}
 
 Textbook content:
-${String(sourceText).slice(0, 12000)}
+${sourceText.slice(0, 12000)}
 `;
 
-        const result = await env.AI.run(
-          "@cf/meta/llama-3.1-8b-instruct",
-          {
-            prompt,
-            max_tokens: 1800
-          }
-        );
+        const result = await env.AI.run(MODEL, {
+          prompt,
+          max_tokens: 1800
+        });
 
         return respond({
           success: true,
