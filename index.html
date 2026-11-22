@@ -128,6 +128,7 @@ textarea{min-height:100px;resize:vertical}
   background:#fff;border:1px solid #dce6e0;
   padding:14px;border-radius:10px;
   min-height:90px;white-space:pre-wrap;
+  overflow-wrap:anywhere;
 }
 .paper{
   position:relative;background:white;
@@ -339,8 +340,10 @@ footer{text-align:center;color:#718078;padding:20px;font-size:13px}
     </select>
     <label>کتاب سے مواد / باب کا متن</label>
     <textarea id="materialSource" placeholder="منتخب کتاب کا متن یہاں آئے گا یا آپ خود متن شامل کریں..."></textarea>
-    <button class="btn" onclick="generateMaterial()">تیار کریں</button>
-    <div class="notice">اس انٹرفیس میں حقیقی AI کنکشن ابھی شامل نہیں۔ بغیر AI بیک اینڈ کے تیار ہونے والا مواد اصل کتاب سے تصدیق شدہ نہیں ہوگا۔</div>
+    <button class="btn" id="generateButton" onclick="generateMaterial()">AI سے مواد تیار کریں</button>
+    <div class="notice">
+      AI کتاب کے فراہم کردہ متن کی بنیاد پر تعلیمی مواد تیار کرے گا۔ تیار شدہ مواد کو اصل کتاب سے ضرور چیک کریں۔
+    </div>
   </div>
   <div class="card">
     <h2>تیار شدہ مواد</h2>
@@ -676,22 +679,103 @@ async function readPDF(){
   uploadedPDFText="";
 }
 
-function generateMaterial(){
+/* CLOUDflare AI CONNECTION */
+async function generateMaterial(){
+
   const type=document.getElementById("materialType").value;
-  const subject=document.getElementById("materialSubject").value;
-  const chapter=document.getElementById("materialChapter").value;
-  const source=document.getElementById("materialSource").value;
+  const subject=document.getElementById("materialSubject").value.trim();
+  const chapter=document.getElementById("materialChapter").value.trim();
+  const source=document.getElementById("materialSource").value.trim();
   const lang=document.getElementById("materialLanguage").value;
+  const cls=document.getElementById("materialClass").selectedOptions[0].text;
+  const group=document.getElementById("materialGroup").value;
   const output=document.getElementById("materialOutput");
-  if(!subject||!chapter){alert("مضمون اور باب درج کریں");return}
-  if(!source.trim()){
-    output.textContent="کتاب کا متن دستیاب نہیں۔ پہلے کتاب سے متعلق متن شامل کریں یا مستقبل میں منسلک AI اور کتابی ڈیٹا استعمال کریں۔";
+  const button=document.getElementById("generateButton");
+
+  if(!subject || !chapter){
+    alert("مضمون اور باب درج کریں۔");
     return;
   }
+
+  if(!source){
+    alert("پہلے کتاب یا باب کا متن درج کریں۔");
+    return;
+  }
+
+  button.disabled=true;
+  button.textContent="تیار ہو رہا ہے۔۔۔";
+
   output.textContent=
-    "قسم: "+type+"\nمضمون: "+subject+"\nباب: "+chapter+
-    "\nزبان: "+lang+"\n\nآپ کا فراہم کردہ کتابی متن:\n"+source+
-    "\n\nنوٹ: حقیقی نوٹس، سوالات اور جوابات تیار کرنے کے لیے AI بیک اینڈ منسلک کرنا ضروری ہے۔";
+    "AI آپ کا تعلیمی مواد تیار کر رہا ہے۔\nبراہ کرم انتظار کریں۔۔۔";
+
+  const apiURL=
+    "https://muddy-haze-bed9risen-education-ai.alfaisalzon.workers.dev/api/generate-material";
+
+  try{
+
+    const response=await fetch(apiURL,{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify({
+        subject:subject,
+        chapter:chapter,
+        sourceText:source,
+        task:
+          "Material type: "+type+
+          "\nClass: "+cls+
+          "\nGroup: "+group+
+          "\nRequired language: "+lang+
+          "\n\nCreate accurate, well-organized educational material "+
+          "based on the supplied textbook text. "+
+          "Do not invent textbook facts. "+
+          "If the supplied text does not contain enough information, "+
+          "clearly mention that limitation. "+
+          "For MCQs provide four options and identify the correct answer. "+
+          "For short questions provide clear answers. "+
+          "For long questions provide detailed answers. "+
+          "For notes use headings and important points. "+
+          "For definitions give clear textbook-based definitions. "+
+          "For summary summarize the supplied chapter text. "+
+          "For chapter test create a suitable test with questions."
+      })
+    });
+
+    const data=await response.json();
+
+    if(!response.ok || !data.success){
+      throw new Error(
+        data.error || data.detail || "AI request failed"
+      );
+    }
+
+    if(!data.result){
+      throw new Error("AI کی طرف سے خالی جواب موصول ہوا۔");
+    }
+
+    output.textContent=
+      "جماعت: "+cls+
+      "\nگروپ: "+group+
+      "\nمضمون: "+subject+
+      "\nباب: "+chapter+
+      "\nمواد کی قسم: "+type+
+      "\nزبان: "+lang+
+      "\n\n"+data.result;
+
+  }catch(error){
+
+    output.textContent=
+      "AI سے مواد تیار نہیں ہو سکا۔\n\n"+
+      "وجہ: "+error.message+
+      "\n\nانٹرنیٹ، Cloudflare Worker اور AI binding چیک کریں۔";
+
+  }finally{
+
+    button.disabled=false;
+    button.textContent="AI سے مواد تیار کریں";
+
+  }
 }
 
 function showScheme(){
@@ -765,7 +849,7 @@ function printOutput(id){
   const w=window.open("","_blank");
   w.document.write(`<html lang="ur" dir="rtl"><head><meta charset="UTF-8">
   <style>@font-face{font-family:Jameel;src:url('https://cdn.jsdelivr.net/gh/tariq-abdullah/urdu-web-font-CDN/JameelNooriNastaleeq.woff')}
-  body{font-family:Jameel,Arial;padding:25px}</style></head><body>${content}</body></html>`);
+  body{font-family:Jameel,Arial;padding:25px;white-space:pre-wrap}</style></head><body>${content}</body></html>`);
   w.document.close();w.print();
 }
 
