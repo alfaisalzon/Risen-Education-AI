@@ -20,125 +20,99 @@
 }
 *{box-sizing:border-box}
 body{
-  margin:0;
-  background:var(--bg);
-  color:#24332e;
-  font-family:Jameel,Arial,sans-serif;
-  font-size:17px;
+  margin:0;background:var(--bg);color:#24332e;
+  font-family:Jameel,Arial,sans-serif;font-size:17px;
 }
 button,input,select,textarea{font:inherit}
 header{
   background:linear-gradient(135deg,#104c3d,#21866a);
-  color:white;
-  padding:18px 14px;
-  text-align:center;
-  position:relative;
+  color:white;padding:18px 14px;text-align:center;
 }
 .logo{
-  width:75px;height:75px;
-  object-fit:contain;
-  border-radius:50%;
-  background:white;
-  padding:5px;
-  display:block;
-  margin:0 auto 8px;
+  width:75px;height:75px;object-fit:contain;border-radius:50%;
+  background:white;padding:5px;display:block;margin:0 auto 8px;
 }
 header h1{font-size:25px;margin:5px}
 header p{margin:3px;font-size:14px}
 .top-actions{
-  display:flex;justify-content:center;
-  gap:8px;margin-top:12px;flex-wrap:wrap
+  display:flex;justify-content:center;gap:8px;
+  margin-top:12px;flex-wrap:wrap
 }
 .top-actions button{
-  border:1px solid #ffffff80;
-  color:white;background:#ffffff20;
+  border:1px solid #ffffff80;color:white;background:#ffffff20;
   border-radius:20px;padding:6px 14px;
 }
 nav{
-  display:flex;gap:7px;padding:10px;
-  overflow-x:auto;background:white;
-  position:sticky;top:0;z-index:5;
+  display:flex;gap:7px;padding:10px;overflow-x:auto;
+  background:white;position:sticky;top:0;z-index:5;
   box-shadow:0 2px 8px #00000010;
 }
 nav button{
-  flex-shrink:0;border:0;background:#edf3f0;
-  color:#245a49;border-radius:9px;
-  padding:9px 15px;cursor:pointer;
+  flex-shrink:0;border:0;background:#edf3f0;color:#245a49;
+  border-radius:9px;padding:9px 15px;cursor:pointer;
 }
 nav button.active{background:var(--green);color:white}
 main{max-width:1000px;margin:auto;padding:13px}
 .page{display:none}
 .page.active{display:block}
 .card{
-  background:white;border-radius:14px;
-  padding:16px;margin-bottom:14px;
+  background:white;border-radius:14px;padding:16px;margin-bottom:14px;
   box-shadow:0 2px 10px #00000008;
 }
 h2{color:var(--green);font-size:22px;margin:0 0 12px}
 h3{font-size:19px;color:var(--dark);margin:10px 0}
 label{display:block;margin:9px 0 4px}
 input,select,textarea{
-  width:100%;padding:11px;
-  border:1px solid #d7e2dc;border-radius:9px;
-  background:#fff;outline:none;
+  width:100%;padding:11px;border:1px solid #d7e2dc;
+  border-radius:9px;background:#fff;outline:none;
 }
 textarea{min-height:100px;resize:vertical}
 .btn{
   border:0;border-radius:9px;padding:10px 17px;
-  background:var(--green);color:white;
-  cursor:pointer;margin:5px 2px;
+  background:var(--green);color:white;cursor:pointer;margin:5px 2px;
 }
 .btn.secondary{background:#e6f1ec;color:var(--dark)}
-.btn.red{background:#b83c3c}
+.btn.red{background:#b83c3c;color:white}
+.btn:disabled{opacity:.55;cursor:not-allowed}
 .grid{
-  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:10px;
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;
 }
 .tile{
   border:1px solid #dce9e2;background:#f8fbf9;
-  border-radius:12px;padding:14px;text-align:center;
-  cursor:pointer;
+  border-radius:12px;padding:14px;text-align:center;cursor:pointer;
 }
 .tile strong{display:block;color:var(--green);font-size:18px}
 .small{font-size:13px;color:#6b7d74}
 .notice{
   background:#fff7df;border-right:4px solid #e2ad35;
-  padding:10px;border-radius:8px;font-size:14px;
-  margin:10px 0;
+  padding:10px;border-radius:8px;font-size:14px;margin:10px 0;
 }
-.success{
-  background:#eaf5f0;padding:10px;border-radius:8px;
-}
+.success{background:#eaf5f0;padding:10px;border-radius:8px}
 .book-item{
   display:flex;align-items:center;gap:12px;
   border:1px solid #e0e9e4;border-radius:10px;
-  padding:12px;margin:8px 0;background:#fff;
+  padding:12px;margin:8px 0;background:#fff;flex-wrap:wrap;
 }
 .book-icon{
-  width:48px;height:55px;border-radius:6px;
-  display:grid;place-items:center;
-  background:#e5f2eb;color:var(--green);
+  width:48px;height:55px;border-radius:6px;display:grid;
+  place-items:center;background:#e5f2eb;color:var(--green);
   font-size:24px;flex-shrink:0;
 }
-.book-info{flex:1;min-width:0}
+.book-info{flex:1;min-width:130px}
 .book-info strong{display:block}
-.book-info small{color:#75837b}
-.book-item button{white-space:nowrap}
+.book-info small{color:#75837b;display:block}
+.book-actions{display:flex;gap:4px;flex-wrap:wrap}
 .output{
-  background:#fff;border:1px solid #dce6e0;
-  padding:14px;border-radius:10px;
-  min-height:90px;white-space:pre-wrap;
+  background:#fff;border:1px solid #dce6e0;padding:14px;
+  border-radius:10px;min-height:90px;white-space:pre-wrap;
   overflow-wrap:anywhere;
 }
 .paper{
-  position:relative;background:white;
-  padding:25px;margin-top:15px;
-  border:1px solid #ddd;min-height:400px;
-  overflow:hidden;
+  position:relative;background:white;padding:25px;margin-top:15px;
+  border:1px solid #ddd;min-height:400px;overflow:hidden;
 }
 .watermark{
-  position:absolute;left:50%;top:50%;
-  transform:translate(-50%,-50%);
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
   width:230px;height:230px;object-fit:contain;
   opacity:.06;pointer-events:none;
 }
@@ -148,10 +122,18 @@ table{width:100%;border-collapse:collapse;margin-top:10px}
 td,th{border:1px solid #777;padding:7px;text-align:center}
 footer{text-align:center;color:#718078;padding:20px;font-size:13px}
 .hidden{display:none!important}
+.status-line{font-size:14px;margin:8px 0;padding:9px;border-radius:8px}
+.status-ok{background:#eaf5f0;color:#176b55}
+.status-warn{background:#fff7df;color:#805d13}
+.status-error{background:#ffeded;color:#a12b2b}
+.book-filter-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 @media(max-width:500px){
   .grid{grid-template-columns:1fr 1fr}
   header h1{font-size:21px}
   .book-item{flex-wrap:wrap}
+  .book-actions{width:100%}
+  .book-actions button{flex:1}
+  .book-filter-row{grid-template-columns:1fr}
 }
 @media print{
   body{background:white}
@@ -163,6 +145,9 @@ footer{text-align:center;color:#718078;padding:20px;font-size:13px}
   .paper{border:0;margin:0;min-height:0}
 }
 </style>
+
+<!-- PDF.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </head>
 
 <body>
@@ -171,7 +156,7 @@ footer{text-align:center;color:#718078;padding:20px;font-size:13px}
   <img id="schoolLogo" class="logo" alt="School Logo">
   <h1 id="schoolName">The Risen High School</h1>
   <p>رائزن ایجوکیشن اے آئی</p>
-  <p>Punjab Education Platform</p>
+  <p>Punjab Education Platform | Session 2026-2027</p>
   <div class="top-actions">
     <button onclick="document.getElementById('logoInput').click()">لوگو اپ لوڈ کریں</button>
     <button onclick="toggleLanguage()" id="langButton">English</button>
@@ -198,28 +183,22 @@ footer{text-align:center;color:#718078;padding:20px;font-size:13px}
     <p>اپنی جماعت، بورڈ اور مضمون منتخب کرکے تعلیمی مواد تیار کریں۔</p>
     <div class="grid">
       <div class="tile" onclick="showPage('books')">
-        <strong>کتابیں</strong>
-        <span class="small">تمام جماعتوں کی کتابیں</span>
+        <strong>کتابیں</strong><span class="small">سرکاری کتابوں کی لائبریری</span>
       </div>
       <div class="tile" onclick="showPage('material')">
-        <strong>نوٹس اور سوالات</strong>
-        <span class="small">مطالعہ کا مواد</span>
+        <strong>نوٹس اور سوالات</strong><span class="small">کتاب سے تعلیمی مواد</span>
       </div>
       <div class="tile" onclick="showPage('scheme')">
-        <strong>پیئرنگ اسکیم</strong>
-        <span class="small">باب اور سوالات کی تقسیم</span>
+        <strong>پیئرنگ اسکیم</strong><span class="small">باب اور سوالات کی تقسیم</span>
       </div>
       <div class="tile" onclick="showPage('paper')">
-        <strong>پیپر میکر</strong>
-        <span class="small">امتحانی پرچہ بنائیں</span>
+        <strong>پیپر میکر</strong><span class="small">امتحانی پرچہ بنائیں</span>
       </div>
       <div class="tile" onclick="showPage('bubble')">
-        <strong>ببل شیٹ</strong>
-        <span class="small">MCQs جوابی شیٹ</span>
+        <strong>ببل شیٹ</strong><span class="small">MCQs جوابی شیٹ</span>
       </div>
       <div class="tile" onclick="showPage('upload')">
-        <strong>کتاب اپ لوڈ</strong>
-        <span class="small">اپنی PDF شامل کریں</span>
+        <strong>کتاب اپ لوڈ</strong><span class="small">اپنی PDF شامل کریں</span>
       </div>
     </div>
   </div>
@@ -230,14 +209,10 @@ footer{text-align:center;color:#718078;padding:20px;font-size:13px}
     <select id="homeClass" onchange="syncClass()"></select>
     <label>بورڈ</label>
     <select id="homeBoard">
-      <option>لاہور بورڈ</option>
-      <option>گوجرانوالہ بورڈ</option>
-      <option>فیصل آباد بورڈ</option>
-      <option>ملتان بورڈ</option>
-      <option>راولپنڈی بورڈ</option>
-      <option>سرگودھا بورڈ</option>
-      <option>بہاولپور بورڈ</option>
-      <option>ساہیوال بورڈ</option>
+      <option>لاہور بورڈ</option><option>گوجرانوالہ بورڈ</option>
+      <option>فیصل آباد بورڈ</option><option>ملتان بورڈ</option>
+      <option>راولپنڈی بورڈ</option><option>سرگودھا بورڈ</option>
+      <option>بہاولپور بورڈ</option><option>ساہیوال بورڈ</option>
       <option>ڈی جی خان بورڈ</option>
     </select>
   </div>
@@ -247,14 +222,15 @@ footer{text-align:center;color:#718078;padding:20px;font-size:13px}
 <section class="page" id="books">
   <div class="card">
     <h2>کتابوں کی ڈیجیٹل لائبریری</h2>
-    <p>جماعت، گروپ اور مضمون منتخب کریں۔</p>
+    <p>سرکاری ویب سائٹ سے دستیاب کتابوں اور تعلیمی دستاویزات کے لنکس لوڈ کیے جائیں گے۔</p>
 
     <label>جماعت منتخب کریں</label>
-    <select id="bookClass" onchange="updateBookGroups()"></select>
+    <select id="bookClass" onchange="renderBooks()"></select>
 
     <div id="groupArea">
       <label>گروپ منتخب کریں</label>
       <select id="bookGroup" onchange="renderBooks()">
+        <option value="all">تمام گروپس</option>
         <option value="pre-medical">پری میڈیکل</option>
         <option value="pre-engineering">پری انجینئرنگ</option>
         <option value="ics">آئی سی ایس</option>
@@ -264,19 +240,27 @@ footer{text-align:center;color:#718078;padding:20px;font-size:13px}
       </select>
     </div>
 
-    <label>مضمون منتخب کریں</label>
-    <select id="bookSubject" onchange="filterBooks()">
-      <option value="all">تمام مضامین</option>
+    <label>مضمون / کتاب تلاش کریں</label>
+    <input id="bookSearch" placeholder="کتاب یا مضمون کا نام لکھیں" oninput="renderBooks()">
+
+    <label>کتابوں کی قسم</label>
+    <select id="bookType" onchange="renderBooks()">
+      <option value="all">تمام دستیاب ریکارڈ</option>
+      <option value="books">صرف کتابیں</option>
+      <option value="schemes">سلیبس / پیئرنگ / نوٹیفکیشن</option>
     </select>
 
+    <button class="btn" onclick="loadBooks(true)">سرکاری فہرست دوبارہ لوڈ کریں</button>
+    <div id="catalogStatus" class="status-line status-warn">سرکاری فہرست لوڈ کی جا رہی ہے۔۔۔</div>
+
     <div class="notice">
-      کتابوں کے نام اور گروپس کا ڈھانچہ موجود ہے۔ اصل سرکاری PDF فائلیں مستند ذرائع سے شامل ہونے کے بعد یہاں پڑھنے اور ڈاؤن لوڈ کرنے کے قابل ہوں گی۔
+      نوٹ: سرکاری ویب سائٹ کے بعض لنکس کی جماعت، میڈیم اور ایڈیشن کی تصدیق ضروری ہے۔ غیر تصدیق شدہ ریکارڈ کو تصدیق شدہ کتاب نہیں کہا جائے گا۔
     </div>
   </div>
 
   <div class="card">
-    <h2>دستیاب کتابیں</h2>
-    <div id="bookList"></div>
+    <h2>دستیاب سرکاری ریکارڈ</h2>
+    <div id="bookList">فہرست لوڈ ہو رہی ہے۔۔۔</div>
   </div>
 
   <div class="card">
@@ -286,20 +270,21 @@ footer{text-align:center;color:#718078;padding:20px;font-size:13px}
     <label>PDF فائل</label>
     <input type="file" id="customBookFile" accept="application/pdf">
     <button class="btn" onclick="addCustomBook()">کتاب شامل کریں</button>
-    <p class="small">یہ فائل اس ڈیوائس کے موجودہ سیشن میں استعمال ہوگی؛ مستقل آن لائن لائبریری کے لیے سرور یا فائل ہوسٹنگ درکار ہوگی۔</p>
+    <p class="small">یہ کتاب اسی ڈیوائس کے موجودہ سیشن میں دستیاب رہے گی۔</p>
   </div>
 </section>
 
 <!-- PDF UPLOAD -->
 <section class="page" id="upload">
   <div class="card">
-    <h2>کتاب اپ لوڈ کریں</h2>
+    <h2>کتاب اپ لوڈ کریں اور متن نکالیں</h2>
     <label>کتاب کا نام</label>
     <input id="uploadBookName" placeholder="کتاب کا نام">
     <label>PDF فائل منتخب کریں</label>
     <input type="file" id="pdfFile" accept="application/pdf">
-    <button class="btn" onclick="readPDF()">PDF پڑھیں</button>
+    <button class="btn" id="readPdfButton" onclick="readPDF()">PDF پڑھیں اور متن نکالیں</button>
     <div id="pdfStatus" class="output">ابھی کوئی کتاب اپ لوڈ نہیں ہوئی۔</div>
+    <button class="btn secondary" onclick="sendExtractedText()">نکالا ہوا متن نوٹس والے حصے میں بھیجیں</button>
   </div>
 </section>
 
@@ -311,12 +296,9 @@ footer{text-align:center;color:#718078;padding:20px;font-size:13px}
     <select id="materialClass"></select>
     <label>گروپ</label>
     <select id="materialGroup">
-      <option>پری میڈیکل</option>
-      <option>پری انجینئرنگ</option>
-      <option>آئی سی ایس</option>
-      <option>جنرل سائنس</option>
-      <option>آرٹس / ہیومینیٹیز</option>
-      <option>کامرس</option>
+      <option>پری میڈیکل</option><option>پری انجینئرنگ</option>
+      <option>آئی سی ایس</option><option>جنرل سائنس</option>
+      <option>آرٹس / ہیومینیٹیز</option><option>کامرس</option>
     </select>
     <label>مضمون</label>
     <input id="materialSubject" placeholder="مثلاً فزکس، اردو، کیمسٹری">
@@ -324,27 +306,23 @@ footer{text-align:center;color:#718078;padding:20px;font-size:13px}
     <input id="materialChapter" placeholder="باب کا نام یا نمبر">
     <label>مواد کی قسم</label>
     <select id="materialType">
-      <option>مکمل نوٹس</option>
-      <option>MCQs</option>
-      <option>مختصر سوالات</option>
-      <option>تفصیلی سوالات</option>
-      <option>تعریفیں</option>
-      <option>خلاصہ</option>
-      <option>باب کا ٹیسٹ</option>
+      <option>مکمل نوٹس</option><option>MCQs</option>
+      <option>مختصر سوالات</option><option>تفصیلی سوالات</option>
+      <option>تعریفیں</option><option>خلاصہ</option><option>باب کا ٹیسٹ</option>
     </select>
     <label>زبان</label>
     <select id="materialLanguage">
-      <option>اردو</option>
-      <option>English</option>
-      <option>اردو + English</option>
+      <option>اردو</option><option>English</option><option>اردو + English</option>
     </select>
     <label>کتاب سے مواد / باب کا متن</label>
-    <textarea id="materialSource" placeholder="منتخب کتاب کا متن یہاں آئے گا یا آپ خود متن شامل کریں..."></textarea>
+    <textarea id="materialSource" placeholder="PDF سے نکالا ہوا متن یہاں آئے گا یا آپ خود متن شامل کریں۔۔۔"></textarea>
+    <p class="small" id="sourceCount">متن: 0 حروف</p>
     <button class="btn" id="generateButton" onclick="generateMaterial()">AI سے مواد تیار کریں</button>
     <div class="notice">
-      AI کتاب کے فراہم کردہ متن کی بنیاد پر تعلیمی مواد تیار کرے گا۔ تیار شدہ مواد کو اصل کتاب سے ضرور چیک کریں۔
+      AI فراہم کردہ کتابی متن کی بنیاد پر مواد تیار کرے گا۔ تیار شدہ مواد کو اصل کتاب سے ضرور چیک کریں۔
     </div>
   </div>
+
   <div class="card">
     <h2>تیار شدہ مواد</h2>
     <div id="materialOutput" class="output">آپ کا مواد یہاں دکھائی دے گا۔</div>
@@ -356,39 +334,27 @@ footer{text-align:center;color:#718078;padding:20px;font-size:13px}
 <section class="page" id="scheme">
   <div class="card">
     <h2>پیئرنگ اسکیم</h2>
-    <label>جماعت</label>
-    <select id="schemeClass"></select>
+    <label>جماعت</label><select id="schemeClass"></select>
     <label>بورڈ</label>
     <select id="schemeBoard">
-      <option>لاہور بورڈ</option>
-      <option>گوجرانوالہ بورڈ</option>
-      <option>فیصل آباد بورڈ</option>
-      <option>ملتان بورڈ</option>
-      <option>راولپنڈی بورڈ</option>
-      <option>سرگودھا بورڈ</option>
-      <option>بہاولپور بورڈ</option>
-      <option>ساہیوال بورڈ</option>
+      <option>لاہور بورڈ</option><option>گوجرانوالہ بورڈ</option>
+      <option>فیصل آباد بورڈ</option><option>ملتان بورڈ</option>
+      <option>راولپنڈی بورڈ</option><option>سرگودھا بورڈ</option>
+      <option>بہاولپور بورڈ</option><option>ساہیوال بورڈ</option>
       <option>ڈی جی خان بورڈ</option>
     </select>
     <label>گروپ</label>
     <select id="schemeGroup">
-      <option>پری میڈیکل</option>
-      <option>پری انجینئرنگ</option>
-      <option>آئی سی ایس</option>
-      <option>جنرل سائنس</option>
-      <option>آرٹس</option>
-      <option>کامرس</option>
+      <option>پری میڈیکل</option><option>پری انجینئرنگ</option>
+      <option>آئی سی ایس</option><option>جنرل سائنس</option>
+      <option>آرٹس</option><option>کامرس</option>
     </select>
-    <label>مضمون</label>
-    <input id="schemeSubject" placeholder="مضمون کا نام">
+    <label>مضمون</label><input id="schemeSubject" placeholder="مضمون کا نام">
     <label>سال</label>
-    <select id="schemeYear">
-      <option>2026-2027</option>
-      <option>2025-2026</option>
-    </select>
+    <select id="schemeYear"><option>2026-2027</option><option>2025-2026</option></select>
     <button class="btn" onclick="showScheme()">اسکیم دیکھیں</button>
     <div id="schemeOutput" class="output">مستند اسکیم دستیاب ہونے پر یہاں دکھائی جائے گی۔</div>
-    <div class="notice">سرکاری اسکیم کا مستند PDF یا ڈیٹا شامل کیے بغیر اسے اصل سرکاری اسکیم نہیں کہا جائے گا۔</div>
+    <div class="notice">سرکاری اسکیم کا مستند ڈیٹا شامل کیے بغیر اسے اصل سرکاری اسکیم نہیں کہا جائے گا۔</div>
   </div>
 </section>
 
@@ -396,48 +362,32 @@ footer{text-align:center;color:#718078;padding:20px;font-size:13px}
 <section class="page" id="paper">
   <div class="card">
     <h2>پیپر میکر</h2>
-    <label>جماعت</label>
-    <select id="paperClass"></select>
-    <label>مضمون</label>
-    <input id="paperSubject" placeholder="مضمون">
+    <label>جماعت</label><select id="paperClass"></select>
+    <label>مضمون</label><input id="paperSubject" placeholder="مضمون">
     <label>امتحان کی قسم</label>
     <select id="paperExam">
-      <option>ماہانہ ٹیسٹ</option>
-      <option>سہ ماہی امتحان</option>
-      <option>ششماہی امتحان</option>
-      <option>سالانہ امتحان</option>
+      <option>ماہانہ ٹیسٹ</option><option>سہ ماہی امتحان</option>
+      <option>ششماہی امتحان</option><option>سالانہ امتحان</option>
       <option>ماڈل پیپر</option>
     </select>
     <div class="grid">
-      <div>
-        <label>کل نمبر</label>
-        <input id="paperMarks" type="number" value="50">
-      </div>
-      <div>
-        <label>وقت</label>
-        <input id="paperTime" value="2 گھنٹے">
-      </div>
+      <div><label>کل نمبر</label><input id="paperMarks" type="number" value="50"></div>
+      <div><label>وقت</label><input id="paperTime" value="2 گھنٹے"></div>
     </div>
-    <label>MCQs</label>
-    <textarea id="paperMCQ" placeholder="سوالات اور اختیارات لکھیں"></textarea>
-    <label>مختصر سوالات</label>
-    <textarea id="paperShort" placeholder="مختصر سوالات لکھیں"></textarea>
-    <label>تفصیلی سوالات</label>
-    <textarea id="paperLong" placeholder="تفصیلی سوالات لکھیں"></textarea>
+    <label>MCQs</label><textarea id="paperMCQ" placeholder="سوالات اور اختیارات لکھیں"></textarea>
+    <label>مختصر سوالات</label><textarea id="paperShort" placeholder="مختصر سوالات لکھیں"></textarea>
+    <label>تفصیلی سوالات</label><textarea id="paperLong" placeholder="تفصیلی سوالات لکھیں"></textarea>
     <button class="btn" onclick="makePaper()">پیپر تیار کریں</button>
   </div>
-
   <div class="card">
     <h2>پیپر پری ویو</h2>
     <div class="paper" id="paperPreview">
       <img class="watermark watermarkImg" alt="">
       <div class="paper-content">
-        <h2>The Risen High School</h2>
-        <h3>امتحانی پرچہ</h3>
+        <h2>The Risen High School</h2><h3>امتحانی پرچہ</h3>
         <p>نام: __________________ رول نمبر: ______________</p>
         <p>جماعت: __________ مضمون: __________</p>
-        <p>وقت: __________ کل نمبر: __________</p>
-        <hr>
+        <p>وقت: __________ کل نمبر: __________</p><hr>
         <p>پیپر تیار کرنے کے لیے اوپر معلومات درج کریں۔</p>
       </div>
     </div>
@@ -449,16 +399,11 @@ footer{text-align:center;color:#718078;padding:20px;font-size:13px}
 <section class="page" id="bubble">
   <div class="card">
     <h2>MCQs ببل شیٹ</h2>
-    <label>طالب علم کا نام</label>
-    <input id="studentName" placeholder="طالب علم کا نام">
-    <label>رول نمبر</label>
-    <input id="rollNumber" placeholder="رول نمبر">
-    <label>جماعت</label>
-    <select id="bubbleClass"></select>
-    <label>مضمون</label>
-    <input id="bubbleSubject" placeholder="مضمون">
-    <label>سوالات کی تعداد</label>
-    <input id="bubbleCount" type="number" value="50" min="1" max="100">
+    <label>طالب علم کا نام</label><input id="studentName" placeholder="طالب علم کا نام">
+    <label>رول نمبر</label><input id="rollNumber" placeholder="رول نمبر">
+    <label>جماعت</label><select id="bubbleClass"></select>
+    <label>مضمون</label><input id="bubbleSubject" placeholder="مضمون">
+    <label>سوالات کی تعداد</label><input id="bubbleCount" type="number" value="50" min="1" max="100">
     <button class="btn" onclick="makeBubble()">ببل شیٹ بنائیں</button>
   </div>
   <div class="card">
@@ -472,69 +417,70 @@ footer{text-align:center;color:#718078;padding:20px;font-size:13px}
 </section>
 
 </main>
-<footer>
-  The Risen High School | Risen Education AI
-</footer>
+<footer>The Risen High School | Risen Education AI</footer>
 
 <script>
-const classes = [
- "پلے گروپ","نرسری","پریپ",
- "پہلی جماعت","دوسری جماعت","تیسری جماعت",
- "چوتھی جماعت","پانچویں جماعت","چھٹی جماعت",
- "ساتویں جماعت","آٹھویں جماعت","نویں جماعت",
- "دسویں جماعت","گیارہویں جماعت / فرسٹ ایئر",
- "بارہویں جماعت / سیکنڈ ایئر"
+/* بنیادی سیٹنگ */
+const API_BASE="https://muddy-haze-bed9risen-education-ai.alfaisalzon.workers.dev";
+const BOOKS_API=API_BASE+"/api/books";
+const PDF_API=API_BASE+"/api/pdf";
+const AI_API=API_BASE+"/api/generate-material";
+
+if(window.pdfjsLib){
+  pdfjsLib.GlobalWorkerOptions.workerSrc=
+  "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+}
+
+const classes=[
+ "پلے گروپ","نرسری","پریپ","پہلی جماعت","دوسری جماعت",
+ "تیسری جماعت","چوتھی جماعت","پانچویں جماعت","چھٹی جماعت",
+ "ساتویں جماعت","آٹھویں جماعت","نویں جماعت","دسویں جماعت",
+ "گیارہویں جماعت / فرسٹ ایئر","بارہویں جماعت / سیکنڈ ایئر"
 ];
 
-const subjects = {
- "9":[
-  ["اردو","لازمی"],["انگریزی","لازمی"],["اسلامیات","لازمی"],
-  ["ترجمۃ القرآن","لازمی"],["ریاضی","سائنس"],
-  ["فزکس","سائنس"],["کیمسٹری","سائنس"],
-  ["حیاتیات","پری میڈیکل"],["کمپیوٹر سائنس","آئی سی ایس"],
-  ["جنرل سائنس","جنرل سائنس"]
- ],
- "10":[
-  ["اردو","لازمی"],["انگریزی","لازمی"],["پاکستان اسٹڈیز","لازمی"],
-  ["ترجمۃ القرآن","لازمی"],["ریاضی","سائنس"],
-  ["فزکس","سائنس"],["کیمسٹری","سائنس"],
-  ["حیاتیات","پری میڈیکل"],["کمپیوٹر سائنس","آئی سی ایس"],
-  ["جنرل سائنس","جنرل سائنس"]
- ],
- "11":[
-  ["اردو","لازمی"],["انگریزی","لازمی"],["اسلامیات","لازمی"],
-  ["ترجمۃ القرآن","لازمی"],["فزکس","پری میڈیکل"],
-  ["کیمسٹری","پری میڈیکل"],["حیاتیات","پری میڈیکل"],
-  ["فزکس","پری انجینئرنگ"],["کیمسٹری","پری انجینئرنگ"],
-  ["ریاضی","پری انجینئرنگ"],["کمپیوٹر سائنس","آئی سی ایس"],
-  ["ریاضی","آئی سی ایس"],["شماریات","آئی سی ایس"],
-  ["اکنامکس","آرٹس"],["تعلیم","آرٹس"],["شہریات","آرٹس"],
-  ["اکاؤنٹنگ","کامرس"],["بزنس","کامرس"]
- ],
- "12":[
-  ["اردو","لازمی"],["انگریزی","لازمی"],["پاکستان اسٹڈیز","لازمی"],
-  ["ترجمۃ القرآن","لازمی"],["فزکس","پری میڈیکل"],
-  ["کیمسٹری","پری میڈیکل"],["حیاتیات","پری میڈیکل"],
-  ["فزکس","پری انجینئرنگ"],["کیمسٹری","پری انجینئرنگ"],
-  ["ریاضی","پری انجینئرنگ"],["کمپیوٹر سائنس","آئی سی ایس"],
-  ["ریاضی","آئی سی ایس"],["شماریات","آئی سی ایس"],
-  ["اکنامکس","آرٹس"],["تعلیم","آرٹس"],["شہریات","آرٹس"],
-  ["اکاؤنٹنگ","کامرس"],["بزنس","کامرس"]
- ]
+const subjects={
+ "9":[["اردو","لازمی"],["انگریزی","لازمی"],["اسلامیات","لازمی"],
+ ["ترجمۃ القرآن","لازمی"],["ریاضی","سائنس"],["فزکس","سائنس"],
+ ["کیمسٹری","سائنس"],["حیاتیات","پری میڈیکل"],
+ ["کمپیوٹر سائنس","آئی سی ایس"],["جنرل سائنس","جنرل سائنس"]],
+ "10":[["اردو","لازمی"],["انگریزی","لازمی"],["پاکستان اسٹڈیز","لازمی"],
+ ["ترجمۃ القرآن","لازمی"],["ریاضی","سائنس"],["فزکس","سائنس"],
+ ["کیمسٹری","سائنس"],["حیاتیات","پری میڈیکل"],
+ ["کمپیوٹر سائنس","آئی سی ایس"],["جنرل سائنس","جنرل سائنس"]],
+ "11":[["اردو","لازمی"],["انگریزی","لازمی"],["اسلامیات","لازمی"],
+ ["ترجمۃ القرآن","لازمی"],["فزکس","پری میڈیکل"],
+ ["کیمسٹری","پری میڈیکل"],["حیاتیات","پری میڈیکل"],
+ ["فزکس","پری انجینئرنگ"],["کیمسٹری","پری انجینئرنگ"],
+ ["ریاضی","پری انجینئرنگ"],["کمپیوٹر سائنس","آئی سی ایس"],
+ ["ریاضی","آئی سی ایس"],["شماریات","آئی سی ایس"],
+ ["اکنامکس","آرٹس"],["تعلیم","آرٹس"],["شہریات","آرٹس"],
+ ["اکاؤنٹنگ","کامرس"],["بزنس","کامرس"]],
+ "12":[["اردو","لازمی"],["انگریزی","لازمی"],["پاکستان اسٹڈیز","لازمی"],
+ ["ترجمۃ القرآن","لازمی"],["فزکس","پری میڈیکل"],
+ ["کیمسٹری","پری میڈیکل"],["حیاتیات","پری میڈیکل"],
+ ["فزکس","پری انجینئرنگ"],["کیمسٹری","پری انجینئرنگ"],
+ ["ریاضی","پری انجینئرنگ"],["کمپیوٹر سائنس","آئی سی ایس"],
+ ["ریاضی","آئی سی ایس"],["شماریات","آئی سی ایس"],
+ ["اکنامکس","آرٹس"],["تعلیم","آرٹس"],["شہریات","آرٹس"],
+ ["اکاؤنٹنگ","کامرس"],["بزنس","کامرس"]]
 };
 
-let uploadedPDFText = "";
-let customBooks = [];
-let bookURLs = {};
+let uploadedPDFText="";
+let customBooks=[];
+let officialBooks=[];
+let catalogLoaded=false;
+let catalogLoading=false;
+let activeBook=null;
+let english=false;
 
 function fillClasses(){
-  ["homeClass","bookClass","materialClass","schemeClass",
-   "paperClass","bubbleClass"].forEach(id=>{
+  ["homeClass","bookClass","materialClass","schemeClass","paperClass","bubbleClass"]
+  .forEach(id=>{
     const el=document.getElementById(id);
     if(!el)return;
     el.innerHTML="";
     classes.forEach((c,i)=>{
-      let o=document.createElement("option");
+      const o=document.createElement("option");
       o.value=i;o.textContent=c;el.appendChild(o);
     });
   });
@@ -546,12 +492,13 @@ function showPage(id,btn){
   document.getElementById(id).classList.add("active");
   document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));
   if(btn)btn.classList.add("active");
-  if(id==="books")updateBookGroups();
+  if(id==="books")loadBooks();
 }
+
 function syncClass(){
   document.getElementById("bookClass").value=
-    document.getElementById("homeClass").value;
-  updateBookGroups();
+  document.getElementById("homeClass").value;
+  renderBooks();
 }
 
 function classNumber(){
@@ -563,94 +510,207 @@ function classNumber(){
   return "";
 }
 
-function updateBookGroups(){
-  const n=classNumber();
-  const groupArea=document.getElementById("groupArea");
-  groupArea.style.display=n?"block":"none";
-  renderBooks();
+/* سرکاری کتابوں کی API */
+function getBookTitle(b){
+  return String(b.title||b.name||b.book||b.label||b.fileName||"بغیر نام کا ریکارڈ");
+}
+function getBookURL(b){
+  return b.url||b.href||b.link||b.downloadUrl||b.pdfUrl||b.download_url||"";
+}
+function normalizeGrade(value){
+  const s=String(value||"").toLowerCase();
+  if(/(^|[^0-9])12([^0-9]|$)|second year|grade 12|class 12|بارہویں/.test(s))return "12";
+  if(/(^|[^0-9])11([^0-9]|$)|first year|grade 11|class 11|گیارہویں/.test(s))return "11";
+  if(/(^|[^0-9])10([^0-9]|$)|grade 10|class 10|دسویں/.test(s))return "10";
+  if(/(^|[^0-9])9([^0-9]|$)|grade 9|class 9|نویں/.test(s))return "9";
+  return "";
+}
+function getBookGrade(b){
+  const g=String(b.grade||b.class||b.className||"");
+  const direct=normalizeGrade(g);
+  if(direct)return direct;
+  const title=getBookTitle(b);
+  return normalizeGrade(title);
+}
+function isSchemeRecord(b){
+  const s=(getBookTitle(b)+" "+(b.type||"")+" "+(b.category||"")).toLowerCase();
+  return /pairing|scheme|smart syllabus|syllabus|notification|curriculum|الپ|اسکیم|سلیبس|نوٹیفکیشن/.test(s);
+}
+function isBookRecord(b){
+  const t=String(b.type||b.category||"").toLowerCase();
+  return !isSchemeRecord(b) &&
+  (/book|textbook|text book|کتاب/.test(t)||!!getBookURL(b));
+}
+function setCatalogStatus(message,type){
+  const el=document.getElementById("catalogStatus");
+  el.className="status-line "+(type==="ok"?"status-ok":type==="error"?"status-error":"status-warn");
+  el.textContent=message;
+}
+
+async function loadBooks(force=false){
+  if(catalogLoading)return;
+  if(catalogLoaded&&!force){renderBooks();return}
+  catalogLoading=true;
+  setCatalogStatus("سرکاری ویب سائٹ سے فہرست حاصل کی جا رہی ہے۔۔۔","warn");
+  document.getElementById("bookList").textContent="کتابوں کی فہرست لوڈ ہو رہی ہے۔۔۔";
+  try{
+    const response=await fetch(BOOKS_API,{cache:"no-store"});
+    if(!response.ok)throw new Error("سرور نے جواب نہیں دیا: "+response.status);
+    const data=await response.json();
+    if(!data.success||!Array.isArray(data.books))throw new Error("API کا جواب درست نہیں۔");
+    officialBooks=data.books;
+    catalogLoaded=true;
+    const total=data.total??officialBooks.length;
+    const unverified=data.unverified??"";
+    setCatalogStatus(
+      "فہرست موصول ہوگئی: "+officialBooks.length+
+      " ریکارڈ۔ کل ریکارڈ: "+total+
+      (unverified!==""?" | تصدیق طلب: "+unverified:""),
+      "ok"
+    );
+    renderBooks();
+  }catch(error){
+    setCatalogStatus("سرکاری فہرست لوڈ نہیں ہو سکی: "+error.message,"error");
+    document.getElementById("bookList").textContent=
+      "سرکاری فہرست حاصل نہیں ہو سکی۔ انٹرنیٹ اور Worker کی /api/books سروس چیک کریں۔";
+  }finally{
+    catalogLoading=false;
+  }
+}
+
+function makeBookButton(text,fn,secondary=false){
+  const b=document.createElement("button");
+  b.className="btn"+(secondary?" secondary":"");
+  b.textContent=text;b.onclick=fn;
+  return b;
 }
 
 function renderBooks(){
   const n=classNumber();
-  const group=document.getElementById("bookGroup").value;
-  const subjectSelect=document.getElementById("bookSubject");
   const list=document.getElementById("bookList");
-  subjectSelect.innerHTML='<option value="all">تمام مضامین</option>';
-
   if(!n){
-    list.innerHTML="<p>اس جماعت کے لیے کتابوں کی فہرست بعد میں شامل کی جائے گی۔</p>";
+    list.textContent="اس جماعت کے لیے فی الحال سرکاری فہرست میں واضح کتابی ریکارڈ موجود نہیں۔";
+    return;
+  }
+  if(!catalogLoaded){
+    list.textContent="سرکاری فہرست لوڈ ہو رہی ہے۔۔۔";
     return;
   }
 
-  let data=subjects[n]||[];
-  let filtered=data.filter(s=>{
-    return group==="all" || s[1]==="لازمی" ||
-      (group==="pre-medical" && s[1]==="پری میڈیکل") ||
-      (group==="pre-engineering" && s[1]==="پری انجینئرنگ") ||
-      (group==="ics" && s[1]==="آئی سی ایس") ||
-      (group==="general-science" && s[1]==="جنرل سائنس") ||
-      (group==="arts" && s[1]==="آرٹس") ||
-      (group==="commerce" && s[1]==="کامرس") ||
-      (group==="pre-medical" && s[1]==="سائنس") ||
-      (group==="pre-engineering" && s[1]==="سائنس");
+  const group=document.getElementById("bookGroup").value;
+  const search=document.getElementById("bookSearch").value.trim().toLowerCase();
+  const type=document.getElementById("bookType").value;
+
+  let matches=officialBooks.filter(b=>{
+    const title=getBookTitle(b);
+    const grade=getBookGrade(b);
+    const unverified=!grade;
+    const scheme=isSchemeRecord(b);
+
+    // غیر واضح جماعت کو کسی مخصوص جماعت سے منسوب نہیں کیا جاتا
+    if(grade && grade!==n)return false;
+    if(type==="books"&&scheme)return false;
+    if(type==="schemes"&&!scheme)return false;
+    if(search&&!title.toLowerCase().includes(search))return false;
+
+    return true;
   });
 
-  let unique=[...new Set(filtered.map(s=>s[0]))];
-  unique.forEach(s=>{
-    let o=document.createElement("option");
-    o.value=s;o.textContent=s;subjectSelect.appendChild(o);
+  list.innerHTML="";
+  const heading=document.createElement("p");
+  heading.className="small";
+  heading.textContent="منتخب جماعت: "+classes[Number(document.getElementById("bookClass").value)]+
+    " | ملنے والے ریکارڈ: "+matches.length;
+  list.appendChild(heading);
+
+  if(!matches.length){
+    const p=document.createElement("p");
+    p.textContent="اس جماعت کے لیے واضح طور پر شناخت ہونے والا ریکارڈ نہیں ملا۔ دوسری جماعت یا تمام ریکارڈ منتخب کرکے تلاش کریں۔";
+    list.appendChild(p);
+  }
+
+  matches.forEach((b,index)=>{
+    const title=getBookTitle(b);
+    const url=getBookURL(b);
+    const grade=getBookGrade(b);
+    const scheme=isSchemeRecord(b);
+    const medium=b.medium||"میڈیم کی تصدیق باقی";
+    const edition=b.edition||"ایڈیشن کی تصدیق باقی";
+
+    const item=document.createElement("div");
+    item.className="book-item";
+
+    const icon=document.createElement("div");
+    icon.className="book-icon";
+    icon.textContent=scheme?"📄":"📘";
+
+    const info=document.createElement("div");
+    info.className="book-info";
+
+    const strong=document.createElement("strong");
+    strong.textContent=title;
+
+    const small=document.createElement("small");
+    small.textContent=
+      (grade?"جماعت "+grade:"جماعت کی تصدیق باقی")+
+      " | "+medium+" | "+edition;
+
+    info.append(strong,small);
+
+    const actions=document.createElement("div");
+    actions.className="book-actions";
+
+    if(url){
+      actions.appendChild(makeBookButton("PDF کھولیں",()=>openOfficialBook(b)));
+      actions.appendChild(makeBookButton("متن نکالیں",()=>extractOfficialBook(b),true));
+    }else{
+      actions.appendChild(makeBookButton("لنک دستیاب نہیں",()=>{},true));
+    }
+
+    item.append(icon,info,actions);
+    list.appendChild(item);
   });
 
-  filterBooks();
+  customBooks.forEach(b=>{
+    const item=document.createElement("div");
+    item.className="book-item";
+    const icon=document.createElement("div");
+    icon.className="book-icon";icon.textContent="📕";
+    const info=document.createElement("div");
+    info.className="book-info";
+    const strong=document.createElement("strong");
+    strong.textContent=b.name;
+    const small=document.createElement("small");
+    small.textContent="آپ کی اپ لوڈ کردہ PDF";
+    info.append(strong,small);
+    const actions=document.createElement("div");
+    actions.className="book-actions";
+    actions.appendChild(makeBookButton("کھولیں",()=>openCustomBook(b.id)));
+    actions.appendChild(makeBookButton("متن نکالیں",()=>extractLocalFile(b.file),true));
+    item.append(icon,info,actions);
+    list.appendChild(item);
+  });
 }
 
-function filterBooks(){
-  const n=classNumber();
-  const group=document.getElementById("bookGroup").value;
-  const selected=document.getElementById("bookSubject").value;
-  const list=document.getElementById("bookList");
-  if(!n){return}
-  let data=subjects[n]||[];
-  let filtered=data.filter(s=>{
-    let groupMatch=s[1]==="لازمی" ||
-      (group==="pre-medical" && (s[1]==="پری میڈیکل"||s[1]==="سائنس")) ||
-      (group==="pre-engineering" && (s[1]==="پری انجینئرنگ"||s[1]==="سائنس")) ||
-      (group==="ics" && s[1]==="آئی سی ایس") ||
-      (group==="general-science" && s[1]==="جنرل سائنس") ||
-      (group==="arts" && s[1]==="آرٹس") ||
-      (group==="commerce" && s[1]==="کامرس");
-    return groupMatch && (selected==="all"||s[0]===selected);
-  });
-
-  let html="";
-  filtered.forEach(s=>{
-    const key=n+"-"+s[0];
-    const url=bookURLs[key];
-    html+=`<div class="book-item">
-      <div class="book-icon">📘</div>
-      <div class="book-info">
-        <strong>${s[0]}</strong>
-        <small>${classes[Number(document.getElementById("bookClass").value)]} | ${s[1]}</small>
-      </div>
-      ${url?`<button class="btn" onclick="openBook('${key}')">پڑھیں</button>
-      <button class="btn secondary" onclick="downloadBook('${key}')">ڈاؤن لوڈ</button>`
-      :`<button class="btn secondary" onclick="alert('اس کتاب کی اصل PDF ابھی شامل نہیں کی گئی۔')">PDF دستیاب نہیں</button>`}
-    </div>`;
-  });
-  customBooks.forEach(b=>{
-    html+=`<div class="book-item">
-      <div class="book-icon">📕</div>
-      <div class="book-info"><strong>${b.name}</strong><small>اپ لوڈ کردہ کتاب</small></div>
-      <button class="btn" onclick="openCustomBook(${b.id})">کھولیں</button>
-    </div>`;
-  });
-  list.innerHTML=html||"<p>اس گروپ کے لیے ابھی کتابیں درج نہیں ہیں۔</p>";
+function openOfficialBook(book){
+  const url=getBookURL(book);
+  if(!url){alert("اس ریکارڈ کا لنک موجود نہیں۔");return}
+  try{
+    const parsed=new URL(url);
+    if(!["https:","http:"].includes(parsed.protocol))throw new Error();
+    window.open(parsed.href,"_blank","noopener");
+  }catch(e){
+    alert("کتاب کا لنک درست نہیں۔");
+  }
 }
 
 function addCustomBook(){
   const name=document.getElementById("customBookName").value.trim();
   const file=document.getElementById("customBookFile").files[0];
   if(!name||!file){alert("کتاب کا نام اور PDF منتخب کریں۔");return}
+  if(file.type!=="application/pdf"&&!file.name.toLowerCase().endsWith(".pdf")){
+    alert("براہ کرم PDF فائل منتخب کریں۔");return;
+  }
   const id=Date.now();
   customBooks.push({id,name,file});
   renderBooks();
@@ -660,28 +720,140 @@ function openCustomBook(id){
   const b=customBooks.find(x=>x.id===id);
   if(b)window.open(URL.createObjectURL(b.file),"_blank");
 }
-function openBook(key){
-  if(bookURLs[key])window.open(bookURLs[key],"_blank");
+
+/* PDF سے متن نکالنا */
+async function extractPDFData(data,label){
+  if(!window.pdfjsLib)throw new Error("PDF.js لوڈ نہیں ہوا۔ انٹرنیٹ کنکشن چیک کریں۔");
+  const pdf=await pdfjsLib.getDocument({data}).promise;
+  let text="";
+  const maxPages=Math.min(pdf.numPages,40);
+
+  for(let pageNo=1;pageNo<=maxPages;pageNo++){
+    const page=await pdf.getPage(pageNo);
+    const content=await page.getTextContent();
+    const pageText=content.items.map(x=>x.str||"").join(" ");
+    text+="\n\n--- صفحہ "+pageNo+" ---\n"+pageText;
+    if(text.length>=12000)break;
+  }
+
+  text=text.trim().slice(0,12000);
+  if(!text){
+    throw new Error("PDF سے متن نہیں ملا۔ ممکن ہے یہ اسکین شدہ تصاویر پر مشتمل PDF ہو؛ اس کے لیے OCR درکار ہے۔");
+  }
+
+  uploadedPDFText=text;
+  document.getElementById("materialSource").value=text;
+  updateSourceCount();
+
+  return {
+    pages:pdf.numPages,
+    extractedPages:maxPages,
+    text:text
+  };
 }
-function downloadBook(key){
-  if(bookURLs[key]){
-    const a=document.createElement("a");
-    a.href=bookURLs[key];a.download=key+".pdf";a.click();
+
+async function extractLocalFile(file){
+  if(!file)return;
+  const status=document.getElementById("pdfStatus");
+  status.textContent="PDF پڑھی جا رہی ہے۔۔۔";
+  try{
+    const buffer=await file.arrayBuffer();
+    const result=await extractPDFData(new Uint8Array(buffer),file.name);
+    status.textContent=
+      "PDF کامیابی سے پڑھی گئی۔\n"+
+      "کل صفحات: "+result.pages+
+      "\nمتن نکالے گئے صفحات: "+result.extractedPages+
+      "\nمتن کے حروف: "+result.text.length+
+      "\n\nمتن نوٹس والے حصے میں بھی منتقل کردیا گیا ہے۔";
+  }catch(error){
+    status.textContent="PDF نہیں پڑھی جا سکی:\n"+error.message;
   }
 }
 
 async function readPDF(){
   const file=document.getElementById("pdfFile").files[0];
   const status=document.getElementById("pdfStatus");
+  const button=document.getElementById("readPdfButton");
   if(!file){alert("PDF فائل منتخب کریں");return}
-  status.textContent="PDF منتخب ہوگئی: "+file.name+
-    "\nاس سادہ انٹرفیس میں PDF کا متن خودکار طور پر پڑھنے کے لیے PDF.js شامل کرنا ہوگا۔";
-  uploadedPDFText="";
+  if(file.size>30*1024*1024){
+    alert("فائل 30 MB سے بڑی ہے۔ چھوٹی PDF منتخب کریں۔");return;
+  }
+  button.disabled=true;
+  button.textContent="PDF پڑھی جا رہی ہے۔۔۔";
+  status.textContent="PDF سے متن نکالا جا رہا ہے۔ براہ کرم انتظار کریں۔۔۔";
+  try{
+    const buffer=await file.arrayBuffer();
+    const result=await extractPDFData(new Uint8Array(buffer),file.name);
+    status.textContent=
+      "PDF کامیابی سے پڑھی گئی۔\nکل صفحات: "+result.pages+
+      "\nمتن نکالے گئے صفحات: "+result.extractedPages+
+      "\nمتن کے حروف: "+result.text.length+
+      "\n\nمتن نوٹس والے حصے میں منتقل کردیا گیا ہے۔";
+  }catch(error){
+    status.textContent="PDF پڑھنے میں مسئلہ:\n"+error.message;
+  }finally{
+    button.disabled=false;
+    button.textContent="PDF پڑھیں اور متن نکالیں";
+  }
 }
 
-/* CLOUDflare AI CONNECTION */
-async function generateMaterial(){
+/* سرکاری PDF کو Worker کے ذریعے پڑھنا */
+async function extractOfficialBook(book){
+  const url=getBookURL(book);
+  if(!url){alert("PDF لنک موجود نہیں۔");return}
+  activeBook=book;
+  const status=document.getElementById("pdfStatus");
+  status.textContent="سرکاری PDF حاصل کی جا رہی ہے۔۔۔";
+  showPage("upload");
+  try{
+    const proxyURL=PDF_API+"?url="+encodeURIComponent(url);
+    const response=await fetch(proxyURL);
+    if(!response.ok){
+      let message="PDF حاصل نہیں ہو سکی۔";
+      try{
+        const err=await response.json();
+        message=err.error||err.message||message;
+      }catch(e){}
+      throw new Error(message);
+    }
+    const contentType=response.headers.get("content-type")||"";
+    if(!contentType.toLowerCase().includes("pdf")){
+      throw new Error("سرور نے PDF کے بجائے دوسری فائل بھیجی۔ Worker کا PDF راستہ چیک کریں۔");
+    }
+    const buffer=await response.arrayBuffer();
+    const result=await extractPDFData(new Uint8Array(buffer),getBookTitle(book));
+    document.getElementById("uploadBookName").value=getBookTitle(book);
+    status.textContent=
+      "سرکاری PDF سے متن نکال لیا گیا۔\n"+
+      "کل صفحات: "+result.pages+
+      "\nمتن نکالے گئے صفحات: "+result.extractedPages+
+      "\nمتن کے حروف: "+result.text.length+
+      "\n\nاب نوٹس / سوالات والے حصے میں جا کر مواد تیار کریں۔";
+    document.getElementById("materialSubject").value=getBookTitle(book);
+  }catch(error){
+    status.textContent=
+      "سرکاری PDF سے متن نہیں نکالا جا سکا:\n"+error.message+
+      "\n\nاس فیچر کے لیے Worker میں /api/pdf پراکسی راستہ شامل ہونا ضروری ہے۔";
+  }
+}
 
+function sendExtractedText(){
+  if(!uploadedPDFText){
+    alert("پہلے PDF سے متن نکالیں۔");return;
+  }
+  document.getElementById("materialSource").value=uploadedPDFText;
+  updateSourceCount();
+  showPage("material");
+}
+
+function updateSourceCount(){
+  const value=document.getElementById("materialSource").value;
+  document.getElementById("sourceCount").textContent="متن: "+value.length+" حروف";
+}
+document.getElementById("materialSource").addEventListener("input",updateSourceCount);
+
+/* Cloudflare AI */
+async function generateMaterial(){
   const type=document.getElementById("materialType").value;
   const subject=document.getElementById("materialSubject").value.trim();
   const chapter=document.getElementById("materialChapter").value.trim();
@@ -692,67 +864,39 @@ async function generateMaterial(){
   const output=document.getElementById("materialOutput");
   const button=document.getElementById("generateButton");
 
-  if(!subject || !chapter){
-    alert("مضمون اور باب درج کریں۔");
-    return;
-  }
-
-  if(!source){
-    alert("پہلے کتاب یا باب کا متن درج کریں۔");
-    return;
-  }
+  if(!subject||!chapter){alert("مضمون اور باب درج کریں۔");return}
+  if(!source){alert("پہلے کتاب یا باب کا متن فراہم کریں۔");return}
 
   button.disabled=true;
   button.textContent="تیار ہو رہا ہے۔۔۔";
-
-  output.textContent=
-    "AI آپ کا تعلیمی مواد تیار کر رہا ہے۔\nبراہ کرم انتظار کریں۔۔۔";
-
-  const apiURL=
-    "https://muddy-haze-bed9risen-education-ai.alfaisalzon.workers.dev/api/generate-material";
+  output.textContent="AI آپ کا تعلیمی مواد تیار کر رہا ہے۔ براہ کرم انتظار کریں۔۔۔";
 
   try{
-
-    const response=await fetch(apiURL,{
+    const response=await fetch(AI_API,{
       method:"POST",
-      headers:{
-        "Content-Type":"application/json"
-      },
+      headers:{"Content-Type":"application/json"},
       body:JSON.stringify({
         subject:subject,
         chapter:chapter,
-        sourceText:source,
+        sourceText:source.slice(0,12000),
         task:
           "Material type: "+type+
           "\nClass: "+cls+
           "\nGroup: "+group+
           "\nRequired language: "+lang+
-          "\n\nCreate accurate, well-organized educational material "+
-          "based on the supplied textbook text. "+
-          "Do not invent textbook facts. "+
-          "If the supplied text does not contain enough information, "+
-          "clearly mention that limitation. "+
+          "\n\nCreate accurate, well-organized educational material based on the supplied textbook text. "+
+          "Do not invent textbook facts. If the supplied text does not contain enough information, clearly mention that limitation. "+
           "For MCQs provide four options and identify the correct answer. "+
-          "For short questions provide clear answers. "+
-          "For long questions provide detailed answers. "+
-          "For notes use headings and important points. "+
-          "For definitions give clear textbook-based definitions. "+
-          "For summary summarize the supplied chapter text. "+
-          "For chapter test create a suitable test with questions."
+          "For short questions provide clear answers. For long questions provide detailed answers. "+
+          "For notes use headings and important points. For definitions give clear textbook-based definitions. "+
+          "For summary summarize the supplied chapter text. For chapter test create a suitable test with questions."
       })
     });
 
-    const data=await response.json();
-
-    if(!response.ok || !data.success){
-      throw new Error(
-        data.error || data.detail || "AI request failed"
-      );
-    }
-
-    if(!data.result){
-      throw new Error("AI کی طرف سے خالی جواب موصول ہوا۔");
-    }
+    let data;
+    try{data=await response.json()}catch(e){throw new Error("سرور کا جواب درست JSON نہیں ہے۔")}
+    if(!response.ok||!data.success)throw new Error(data.error||data.detail||"AI request failed");
+    if(!data.result)throw new Error("AI کی طرف سے خالی جواب موصول ہوا۔");
 
     output.textContent=
       "جماعت: "+cls+
@@ -762,19 +906,13 @@ async function generateMaterial(){
       "\nمواد کی قسم: "+type+
       "\nزبان: "+lang+
       "\n\n"+data.result;
-
   }catch(error){
-
     output.textContent=
-      "AI سے مواد تیار نہیں ہو سکا۔\n\n"+
-      "وجہ: "+error.message+
+      "AI سے مواد تیار نہیں ہو سکا۔\n\nوجہ: "+error.message+
       "\n\nانٹرنیٹ، Cloudflare Worker اور AI binding چیک کریں۔";
-
   }finally{
-
     button.disabled=false;
     button.textContent="AI سے مواد تیار کریں";
-
   }
 }
 
@@ -787,6 +925,7 @@ function showScheme(){
     "\n\nاسکیم کا مستند ڈیٹا ابھی شامل نہیں۔ سرکاری اسکیم کی تصدیق کے بعد ہی اصل تقسیم دکھائی جائے گی۔";
 }
 
+/* پیپر میکر */
 function makePaper(){
   const subject=document.getElementById("paperSubject").value||"____________";
   const cls=document.getElementById("paperClass").selectedOptions[0].text;
@@ -796,14 +935,14 @@ function makePaper(){
   const mcq=document.getElementById("paperMCQ").value;
   const short=document.getElementById("paperShort").value;
   const long=document.getElementById("paperLong").value;
+
   document.getElementById("paperPreview").innerHTML=`
     <img class="watermark watermarkImg" src="${logoData||""}">
     <div class="paper-content">
-    <h2>The Risen High School</h2>
-    <h3>${exam}</h3>
+    <h2>The Risen High School</h2><h3>${escapeHTML(exam)}</h3>
     <p>نام: ____________________ رول نمبر: __________________</p>
-    <p>جماعت: ${cls} | مضمون: ${subject}</p>
-    <p>وقت: ${time} | کل نمبر: ${marks}</p>
+    <p>جماعت: ${escapeHTML(cls)} | مضمون: ${escapeHTML(subject)}</p>
+    <p>وقت: ${escapeHTML(time)} | کل نمبر: ${escapeHTML(marks)}</p>
     <hr>
     <h3>حصہ اول: کثیر الانتخابی سوالات</h3>
     <p>${escapeHTML(mcq).replace(/\n/g,"<br>")}</p>
@@ -813,12 +952,14 @@ function makePaper(){
     <p>${escapeHTML(long).replace(/\n/g,"<br>")}</p>
     </div>`;
 }
+
 function escapeHTML(s){
  return String(s).replace(/[&<>"']/g,c=>({
  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
  }[c]));
 }
 
+/* ببل شیٹ */
 function makeBubble(){
   const count=Math.min(100,Math.max(1,Number(document.getElementById("bubbleCount").value)||50));
   let html=`<img class="watermark watermarkImg" src="${logoData||""}">
@@ -826,7 +967,7 @@ function makeBubble(){
   <h2>The Risen High School</h2><h3>MCQs جوابی شیٹ</h3>
   <p>نام: ${escapeHTML(document.getElementById("studentName").value)}
   رول نمبر: ${escapeHTML(document.getElementById("rollNumber").value)}</p>
-  <p>جماعت: ${document.getElementById("bubbleClass").selectedOptions[0].text}
+  <p>جماعت: ${escapeHTML(document.getElementById("bubbleClass").selectedOptions[0].text)}
   مضمون: ${escapeHTML(document.getElementById("bubbleSubject").value)}</p>
   <table><tr><th>نمبر</th><th>A</th><th>B</th><th>C</th><th>D</th></tr>`;
   for(let i=1;i<=count;i++){
@@ -836,6 +977,7 @@ function makeBubble(){
   document.getElementById("bubbleOutput").innerHTML=html;
 }
 
+/* پرنٹ */
 function printPaper(){printSection("paper")}
 function printBubble(){printSection("bubble")}
 function printSection(id){
@@ -847,12 +989,16 @@ function printSection(id){
 function printOutput(id){
   const content=document.getElementById(id).innerHTML;
   const w=window.open("","_blank");
+  if(!w){alert("پرنٹ ونڈو کھولنے کی اجازت دیں۔");return}
   w.document.write(`<html lang="ur" dir="rtl"><head><meta charset="UTF-8">
-  <style>@font-face{font-family:Jameel;src:url('https://cdn.jsdelivr.net/gh/tariq-abdullah/urdu-web-font-CDN/JameelNooriNastaleeq.woff')}
-  body{font-family:Jameel,Arial;padding:25px;white-space:pre-wrap}</style></head><body>${content}</body></html>`);
+  <style>
+  @font-face{font-family:Jameel;src:url('https://cdn.jsdelivr.net/gh/tariq-abdullah/urdu-web-font-CDN/JameelNooriNastaleeq.woff')}
+  body{font-family:Jameel,Arial;padding:25px;white-space:pre-wrap}
+  </style></head><body>${content}</body></html>`);
   w.document.close();w.print();
 }
 
+/* لوگو */
 let logoData=localStorage.getItem("risenLogo")||"";
 function setLogo(){
   document.getElementById("schoolLogo").src=logoData||
@@ -864,26 +1010,31 @@ function setLogo(){
 setLogo();
 
 document.getElementById("logoInput").addEventListener("change",e=>{
- const f=e.target.files[0];if(!f)return;
- const r=new FileReader();
- r.onload=()=>{
-  logoData=r.result;
-  localStorage.setItem("risenLogo",logoData);
-  setLogo();
- };
- r.readAsDataURL(f);
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=()=>{
+    logoData=r.result;
+    try{localStorage.setItem("risenLogo",logoData)}catch(err){
+      alert("لوگو بہت بڑا ہے۔ چھوٹی تصویر منتخب کریں۔");
+    }
+    setLogo();
+  };
+  r.readAsDataURL(f);
 });
 
-let english=false;
+/* ابتدائی زبان سوئچ */
 function toggleLanguage(){
- english=!english;
- document.getElementById("langButton").textContent=english?"اردو":"English";
- document.documentElement.lang=english?"en":"ur";
- document.documentElement.dir=english?"ltr":"rtl";
- alert(english?
- "یہ ابتدائی زبان سوئچ ہے۔ مکمل انگریزی ترجمہ اگلے مرحلے میں تمام لیبلز کے لیے شامل کرنا ہوگا۔":
- "اردو لے آؤٹ منتخب ہوگیا۔");
+  english=!english;
+  document.getElementById("langButton").textContent=english?"اردو":"English";
+  document.documentElement.lang=english?"en":"ur";
+  document.documentElement.dir=english?"ltr":"rtl";
+  alert(english?
+    "English layout direction selected. Full translation is not yet available.":
+    "اردو لے آؤٹ منتخب ہوگیا۔");
 }
+
+/* ایپ شروع ہونے پر کتابوں کی فہرست حاصل کریں */
+loadBooks();
 </script>
 </body>
 </html>
