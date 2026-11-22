@@ -146,7 +146,6 @@ footer{text-align:center;color:#718078;padding:20px;font-size:13px}
 }
 </style>
 
-<!-- PDF.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </head>
 
@@ -169,9 +168,7 @@ footer{text-align:center;color:#718078;padding:20px;font-size:13px}
   <button onclick="showPage('books',this)">کتابیں</button>
   <button onclick="showPage('upload',this)">کتاب اپ لوڈ</button>
   <button onclick="showPage('material',this)">نوٹس / سوالات</button>
-  <button onclick="showPage('scheme',this)">پیئرنگ اسکیم</button>
   <button onclick="showPage('paper',this)">پیپر میکر</button>
-  <button onclick="showPage('bubble',this)">ببل شیٹ</button>
 </nav>
 
 <main>
@@ -181,24 +178,23 @@ footer{text-align:center;color:#718078;padding:20px;font-size:13px}
   <div class="card">
     <h2>رائزن ایجوکیشن اے آئی میں خوش آمدید</h2>
     <p>اپنی جماعت، بورڈ اور مضمون منتخب کرکے تعلیمی مواد تیار کریں۔</p>
+
     <div class="grid">
       <div class="tile" onclick="showPage('books')">
-        <strong>کتابیں</strong><span class="small">سرکاری کتابوں کی لائبریری</span>
+        <strong>کتابیں</strong>
+        <span class="small">سرکاری کتابوں کی لائبریری</span>
       </div>
       <div class="tile" onclick="showPage('material')">
-        <strong>نوٹس اور سوالات</strong><span class="small">کتاب سے تعلیمی مواد</span>
-      </div>
-      <div class="tile" onclick="showPage('scheme')">
-        <strong>پیئرنگ اسکیم</strong><span class="small">باب اور سوالات کی تقسیم</span>
+        <strong>نوٹس اور سوالات</strong>
+        <span class="small">کتاب سے تعلیمی مواد</span>
       </div>
       <div class="tile" onclick="showPage('paper')">
-        <strong>پیپر میکر</strong><span class="small">امتحانی پرچہ بنائیں</span>
-      </div>
-      <div class="tile" onclick="showPage('bubble')">
-        <strong>ببل شیٹ</strong><span class="small">MCQs جوابی شیٹ</span>
+        <strong>پیپر میکر</strong>
+        <span class="small">امتحانی پرچہ بنائیں</span>
       </div>
       <div class="tile" onclick="showPage('upload')">
-        <strong>کتاب اپ لوڈ</strong><span class="small">اپنی PDF شامل کریں</span>
+        <strong>کتاب اپ لوڈ</strong>
+        <span class="small">اپنی PDF شامل کریں</span>
       </div>
     </div>
   </div>
@@ -209,10 +205,14 @@ footer{text-align:center;color:#718078;padding:20px;font-size:13px}
     <select id="homeClass" onchange="syncClass()"></select>
     <label>بورڈ</label>
     <select id="homeBoard">
-      <option>لاہور بورڈ</option><option>گوجرانوالہ بورڈ</option>
-      <option>فیصل آباد بورڈ</option><option>ملتان بورڈ</option>
-      <option>راولپنڈی بورڈ</option><option>سرگودھا بورڈ</option>
-      <option>بہاولپور بورڈ</option><option>ساہیوال بورڈ</option>
+      <option>لاہور بورڈ</option>
+      <option>گوجرانوالہ بورڈ</option>
+      <option>فیصل آباد بورڈ</option>
+      <option>ملتان بورڈ</option>
+      <option>راولپنڈی بورڈ</option>
+      <option>سرگودھا بورڈ</option>
+      <option>بہاولپور بورڈ</option>
+      <option>ساہیوال بورڈ</option>
       <option>ڈی جی خان بورڈ</option>
     </select>
   </div>
@@ -245,9 +245,8 @@ footer{text-align:center;color:#718078;padding:20px;font-size:13px}
 
     <label>کتابوں کی قسم</label>
     <select id="bookType" onchange="renderBooks()">
-      <option value="all">تمام دستیاب ریکارڈ</option>
+      <option value="all">تمام دستیاب کتابیں</option>
       <option value="books">صرف کتابیں</option>
-      <option value="schemes">سلیبس / پیئرنگ / نوٹیفکیشن</option>
     </select>
 
     <button class="btn" onclick="loadBooks(true)">سرکاری فہرست دوبارہ لوڈ کریں</button>
@@ -259,7 +258,7 @@ footer{text-align:center;color:#718078;padding:20px;font-size:13px}
   </div>
 
   <div class="card">
-    <h2>دستیاب سرکاری ریکارڈ</h2>
+    <h2>دستیاب سرکاری کتابیں</h2>
     <div id="bookList">فہرست لوڈ ہو رہی ہے۔۔۔</div>
   </div>
 
@@ -296,9 +295,12 @@ footer{text-align:center;color:#718078;padding:20px;font-size:13px}
     <select id="materialClass"></select>
     <label>گروپ</label>
     <select id="materialGroup">
-      <option>پری میڈیکل</option><option>پری انجینئرنگ</option>
-      <option>آئی سی ایس</option><option>جنرل سائنس</option>
-      <option>آرٹس / ہیومینیٹیز</option><option>کامرس</option>
+      <option>پری میڈیکل</option>
+      <option>پری انجینئرنگ</option>
+      <option>آئی سی ایس</option>
+      <option>جنرل سائنس</option>
+      <option>آرٹس / ہیومینیٹیز</option>
+      <option>کامرس</option>
     </select>
     <label>مضمون</label>
     <input id="materialSubject" placeholder="مثلاً فزکس، اردو، کیمسٹری">
@@ -306,13 +308,19 @@ footer{text-align:center;color:#718078;padding:20px;font-size:13px}
     <input id="materialChapter" placeholder="باب کا نام یا نمبر">
     <label>مواد کی قسم</label>
     <select id="materialType">
-      <option>مکمل نوٹس</option><option>MCQs</option>
-      <option>مختصر سوالات</option><option>تفصیلی سوالات</option>
-      <option>تعریفیں</option><option>خلاصہ</option><option>باب کا ٹیسٹ</option>
+      <option>مکمل نوٹس</option>
+      <option>MCQs</option>
+      <option>مختصر سوالات</option>
+      <option>تفصیلی سوالات</option>
+      <option>تعریفیں</option>
+      <option>خلاصہ</option>
+      <option>باب کا ٹیسٹ</option>
     </select>
     <label>زبان</label>
     <select id="materialLanguage">
-      <option>اردو</option><option>English</option><option>اردو + English</option>
+      <option>اردو</option>
+      <option>English</option>
+      <option>اردو + English</option>
     </select>
     <label>کتاب سے مواد / باب کا متن</label>
     <textarea id="materialSource" placeholder="PDF سے نکالا ہوا متن یہاں آئے گا یا آپ خود متن شامل کریں۔۔۔"></textarea>
@@ -330,89 +338,50 @@ footer{text-align:center;color:#718078;padding:20px;font-size:13px}
   </div>
 </section>
 
-<!-- PAIRING SCHEME -->
-<section class="page" id="scheme">
-  <div class="card">
-    <h2>پیئرنگ اسکیم</h2>
-    <label>جماعت</label><select id="schemeClass"></select>
-    <label>بورڈ</label>
-    <select id="schemeBoard">
-      <option>لاہور بورڈ</option><option>گوجرانوالہ بورڈ</option>
-      <option>فیصل آباد بورڈ</option><option>ملتان بورڈ</option>
-      <option>راولپنڈی بورڈ</option><option>سرگودھا بورڈ</option>
-      <option>بہاولپور بورڈ</option><option>ساہیوال بورڈ</option>
-      <option>ڈی جی خان بورڈ</option>
-    </select>
-    <label>گروپ</label>
-    <select id="schemeGroup">
-      <option>پری میڈیکل</option><option>پری انجینئرنگ</option>
-      <option>آئی سی ایس</option><option>جنرل سائنس</option>
-      <option>آرٹس</option><option>کامرس</option>
-    </select>
-    <label>مضمون</label><input id="schemeSubject" placeholder="مضمون کا نام">
-    <label>سال</label>
-    <select id="schemeYear"><option>2026-2027</option><option>2025-2026</option></select>
-    <button class="btn" onclick="showScheme()">اسکیم دیکھیں</button>
-    <div id="schemeOutput" class="output">مستند اسکیم دستیاب ہونے پر یہاں دکھائی جائے گی۔</div>
-    <div class="notice">سرکاری اسکیم کا مستند ڈیٹا شامل کیے بغیر اسے اصل سرکاری اسکیم نہیں کہا جائے گا۔</div>
-  </div>
-</section>
-
 <!-- PAPER MAKER -->
 <section class="page" id="paper">
   <div class="card">
     <h2>پیپر میکر</h2>
-    <label>جماعت</label><select id="paperClass"></select>
-    <label>مضمون</label><input id="paperSubject" placeholder="مضمون">
+    <label>جماعت</label>
+    <select id="paperClass"></select>
+    <label>مضمون</label>
+    <input id="paperSubject" placeholder="مضمون">
     <label>امتحان کی قسم</label>
     <select id="paperExam">
-      <option>ماہانہ ٹیسٹ</option><option>سہ ماہی امتحان</option>
-      <option>ششماہی امتحان</option><option>سالانہ امتحان</option>
+      <option>ماہانہ ٹیسٹ</option>
+      <option>سہ ماہی امتحان</option>
+      <option>ششماہی امتحان</option>
+      <option>سالانہ امتحان</option>
       <option>ماڈل پیپر</option>
     </select>
     <div class="grid">
       <div><label>کل نمبر</label><input id="paperMarks" type="number" value="50"></div>
       <div><label>وقت</label><input id="paperTime" value="2 گھنٹے"></div>
     </div>
-    <label>MCQs</label><textarea id="paperMCQ" placeholder="سوالات اور اختیارات لکھیں"></textarea>
-    <label>مختصر سوالات</label><textarea id="paperShort" placeholder="مختصر سوالات لکھیں"></textarea>
-    <label>تفصیلی سوالات</label><textarea id="paperLong" placeholder="تفصیلی سوالات لکھیں"></textarea>
+    <label>MCQs</label>
+    <textarea id="paperMCQ" placeholder="سوالات اور اختیارات لکھیں"></textarea>
+    <label>مختصر سوالات</label>
+    <textarea id="paperShort" placeholder="مختصر سوالات لکھیں"></textarea>
+    <label>تفصیلی سوالات</label>
+    <textarea id="paperLong" placeholder="تفصیلی سوالات لکھیں"></textarea>
     <button class="btn" onclick="makePaper()">پیپر تیار کریں</button>
   </div>
+
   <div class="card">
     <h2>پیپر پری ویو</h2>
     <div class="paper" id="paperPreview">
       <img class="watermark watermarkImg" alt="">
       <div class="paper-content">
-        <h2>The Risen High School</h2><h3>امتحانی پرچہ</h3>
+        <h2>The Risen High School</h2>
+        <h3>امتحانی پرچہ</h3>
         <p>نام: __________________ رول نمبر: ______________</p>
         <p>جماعت: __________ مضمون: __________</p>
-        <p>وقت: __________ کل نمبر: __________</p><hr>
+        <p>وقت: __________ کل نمبر: __________</p>
+        <hr>
         <p>پیپر تیار کرنے کے لیے اوپر معلومات درج کریں۔</p>
       </div>
     </div>
     <button class="btn" onclick="printPaper()">پرنٹ / PDF</button>
-  </div>
-</section>
-
-<!-- BUBBLE SHEET -->
-<section class="page" id="bubble">
-  <div class="card">
-    <h2>MCQs ببل شیٹ</h2>
-    <label>طالب علم کا نام</label><input id="studentName" placeholder="طالب علم کا نام">
-    <label>رول نمبر</label><input id="rollNumber" placeholder="رول نمبر">
-    <label>جماعت</label><select id="bubbleClass"></select>
-    <label>مضمون</label><input id="bubbleSubject" placeholder="مضمون">
-    <label>سوالات کی تعداد</label><input id="bubbleCount" type="number" value="50" min="1" max="100">
-    <button class="btn" onclick="makeBubble()">ببل شیٹ بنائیں</button>
-  </div>
-  <div class="card">
-    <h2>جوابی شیٹ</h2>
-    <div id="bubbleOutput" class="paper">
-      <img class="watermark watermarkImg" alt="">
-      <div class="paper-content">ببل شیٹ بنانے کے لیے معلومات درج کریں۔</div>
-    </div>
-    <button class="btn" onclick="printBubble()">پرنٹ / PDF</button>
   </div>
 </section>
 
@@ -431,39 +400,8 @@ if(window.pdfjsLib){
   "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 }
 
-const classes=[
- "پلے گروپ","نرسری","پریپ","پہلی جماعت","دوسری جماعت",
- "تیسری جماعت","چوتھی جماعت","پانچویں جماعت","چھٹی جماعت",
- "ساتویں جماعت","آٹھویں جماعت","نویں جماعت","دسویں جماعت",
- "گیارہویں جماعت / فرسٹ ایئر","بارہویں جماعت / سیکنڈ ایئر"
-];
-
-const subjects={
- "9":[["اردو","لازمی"],["انگریزی","لازمی"],["اسلامیات","لازمی"],
- ["ترجمۃ القرآن","لازمی"],["ریاضی","سائنس"],["فزکس","سائنس"],
- ["کیمسٹری","سائنس"],["حیاتیات","پری میڈیکل"],
- ["کمپیوٹر سائنس","آئی سی ایس"],["جنرل سائنس","جنرل سائنس"]],
- "10":[["اردو","لازمی"],["انگریزی","لازمی"],["پاکستان اسٹڈیز","لازمی"],
- ["ترجمۃ القرآن","لازمی"],["ریاضی","سائنس"],["فزکس","سائنس"],
- ["کیمسٹری","سائنس"],["حیاتیات","پری میڈیکل"],
- ["کمپیوٹر سائنس","آئی سی ایس"],["جنرل سائنس","جنرل سائنس"]],
- "11":[["اردو","لازمی"],["انگریزی","لازمی"],["اسلامیات","لازمی"],
- ["ترجمۃ القرآن","لازمی"],["فزکس","پری میڈیکل"],
- ["کیمسٹری","پری میڈیکل"],["حیاتیات","پری میڈیکل"],
- ["فزکس","پری انجینئرنگ"],["کیمسٹری","پری انجینئرنگ"],
- ["ریاضی","پری انجینئرنگ"],["کمپیوٹر سائنس","آئی سی ایس"],
- ["ریاضی","آئی سی ایس"],["شماریات","آئی سی ایس"],
- ["اکنامکس","آرٹس"],["تعلیم","آرٹس"],["شہریات","آرٹس"],
- ["اکاؤنٹنگ","کامرس"],["بزنس","کامرس"]],
- "12":[["اردو","لازمی"],["انگریزی","لازمی"],["پاکستان اسٹڈیز","لازمی"],
- ["ترجمۃ القرآن","لازمی"],["فزکس","پری میڈیکل"],
- ["کیمسٹری","پری میڈیکل"],["حیاتیات","پری میڈیکل"],
- ["فزکس","پری انجینئرنگ"],["کیمسٹری","پری انجینئرنگ"],
- ["ریاضی","پری انجینئرنگ"],["کمپیوٹر سائنس","آئی سی ایس"],
- ["ریاضی","آئی سی ایس"],["شماریات","آئی سی ایس"],
- ["اکنامکس","آرٹس"],["تعلیم","آرٹس"],["شہریات","آرٹس"],
- ["اکاؤنٹنگ","کامرس"],["بزنس","کامرس"]]
-};
+/* صرف 9th اور 10th */
+const classes=["نویں جماعت","دسویں جماعت"];
 
 let uploadedPDFText="";
 let customBooks=[];
@@ -474,14 +412,16 @@ let activeBook=null;
 let english=false;
 
 function fillClasses(){
-  ["homeClass","bookClass","materialClass","schemeClass","paperClass","bubbleClass"]
+  ["homeClass","bookClass","materialClass","paperClass"]
   .forEach(id=>{
     const el=document.getElementById(id);
     if(!el)return;
     el.innerHTML="";
     classes.forEach((c,i)=>{
       const o=document.createElement("option");
-      o.value=i;o.textContent=c;el.appendChild(o);
+      o.value=i;
+      o.textContent=c;
+      el.appendChild(o);
     });
   });
 }
@@ -498,16 +438,16 @@ function showPage(id,btn){
 function syncClass(){
   document.getElementById("bookClass").value=
   document.getElementById("homeClass").value;
+  document.getElementById("materialClass").value=
+  document.getElementById("homeClass").value;
+  document.getElementById("paperClass").value=
+  document.getElementById("homeClass").value;
   renderBooks();
 }
 
 function classNumber(){
   const v=Number(document.getElementById("bookClass").value);
-  if(v===11)return "9";
-  if(v===12)return "10";
-  if(v===13)return "11";
-  if(v===14)return "12";
-  return "";
+  return v===0?"9":v===1?"10":"";
 }
 
 /* سرکاری کتابوں کی API */
@@ -529,17 +469,11 @@ function getBookGrade(b){
   const g=String(b.grade||b.class||b.className||"");
   const direct=normalizeGrade(g);
   if(direct)return direct;
-  const title=getBookTitle(b);
-  return normalizeGrade(title);
+  return normalizeGrade(getBookTitle(b));
 }
 function isSchemeRecord(b){
   const s=(getBookTitle(b)+" "+(b.type||"")+" "+(b.category||"")).toLowerCase();
   return /pairing|scheme|smart syllabus|syllabus|notification|curriculum|الپ|اسکیم|سلیبس|نوٹیفکیشن/.test(s);
-}
-function isBookRecord(b){
-  const t=String(b.type||b.category||"").toLowerCase();
-  return !isSchemeRecord(b) &&
-  (/book|textbook|text book|کتاب/.test(t)||!!getBookURL(b));
 }
 function setCatalogStatus(message,type){
   const el=document.getElementById("catalogStatus");
@@ -581,7 +515,8 @@ async function loadBooks(force=false){
 function makeBookButton(text,fn,secondary=false){
   const b=document.createElement("button");
   b.className="btn"+(secondary?" secondary":"");
-  b.textContent=text;b.onclick=fn;
+  b.textContent=text;
+  b.onclick=fn;
   return b;
 }
 
@@ -589,7 +524,7 @@ function renderBooks(){
   const n=classNumber();
   const list=document.getElementById("bookList");
   if(!n){
-    list.textContent="اس جماعت کے لیے فی الحال سرکاری فہرست میں واضح کتابی ریکارڈ موجود نہیں۔";
+    list.textContent="جماعت منتخب کریں۔";
     return;
   }
   if(!catalogLoaded){
@@ -597,22 +532,15 @@ function renderBooks(){
     return;
   }
 
-  const group=document.getElementById("bookGroup").value;
   const search=document.getElementById("bookSearch").value.trim().toLowerCase();
-  const type=document.getElementById("bookType").value;
-
   let matches=officialBooks.filter(b=>{
     const title=getBookTitle(b);
     const grade=getBookGrade(b);
-    const unverified=!grade;
     const scheme=isSchemeRecord(b);
 
-    // غیر واضح جماعت کو کسی مخصوص جماعت سے منسوب نہیں کیا جاتا
-    if(grade && grade!==n)return false;
-    if(type==="books"&&scheme)return false;
-    if(type==="schemes"&&!scheme)return false;
+    if(grade&&grade!==n)return false;
+    if(scheme)return false;
     if(search&&!title.toLowerCase().includes(search))return false;
-
     return true;
   });
 
@@ -620,20 +548,19 @@ function renderBooks(){
   const heading=document.createElement("p");
   heading.className="small";
   heading.textContent="منتخب جماعت: "+classes[Number(document.getElementById("bookClass").value)]+
-    " | ملنے والے ریکارڈ: "+matches.length;
+    " | ملنے والی کتابیں: "+matches.length;
   list.appendChild(heading);
 
   if(!matches.length){
     const p=document.createElement("p");
-    p.textContent="اس جماعت کے لیے واضح طور پر شناخت ہونے والا ریکارڈ نہیں ملا۔ دوسری جماعت یا تمام ریکارڈ منتخب کرکے تلاش کریں۔";
+    p.textContent="اس جماعت کے لیے کتاب کا ریکارڈ نہیں ملا۔";
     list.appendChild(p);
   }
 
-  matches.forEach((b,index)=>{
+  matches.forEach(b=>{
     const title=getBookTitle(b);
     const url=getBookURL(b);
     const grade=getBookGrade(b);
-    const scheme=isSchemeRecord(b);
     const medium=b.medium||"میڈیم کی تصدیق باقی";
     const edition=b.edition||"ایڈیشن کی تصدیق باقی";
 
@@ -642,7 +569,7 @@ function renderBooks(){
 
     const icon=document.createElement("div");
     icon.className="book-icon";
-    icon.textContent=scheme?"📄":"📘";
+    icon.textContent="📘";
 
     const info=document.createElement("div");
     info.className="book-info";
@@ -675,7 +602,9 @@ function renderBooks(){
     const item=document.createElement("div");
     item.className="book-item";
     const icon=document.createElement("div");
-    icon.className="book-icon";icon.textContent="📕";
+    icon.className="book-icon";
+    icon.textContent="📕";
+
     const info=document.createElement("div");
     info.className="book-info";
     const strong=document.createElement("strong");
@@ -683,10 +612,12 @@ function renderBooks(){
     const small=document.createElement("small");
     small.textContent="آپ کی اپ لوڈ کردہ PDF";
     info.append(strong,small);
+
     const actions=document.createElement("div");
     actions.className="book-actions";
     actions.appendChild(makeBookButton("کھولیں",()=>openCustomBook(b.id)));
     actions.appendChild(makeBookButton("متن نکالیں",()=>extractLocalFile(b.file),true));
+
     item.append(icon,info,actions);
     list.appendChild(item);
   });
@@ -709,7 +640,8 @@ function addCustomBook(){
   const file=document.getElementById("customBookFile").files[0];
   if(!name||!file){alert("کتاب کا نام اور PDF منتخب کریں۔");return}
   if(file.type!=="application/pdf"&&!file.name.toLowerCase().endsWith(".pdf")){
-    alert("براہ کرم PDF فائل منتخب کریں۔");return;
+    alert("براہ کرم PDF فائل منتخب کریں۔");
+    return;
   }
   const id=Date.now();
   customBooks.push({id,name,file});
@@ -776,7 +708,8 @@ async function readPDF(){
   const button=document.getElementById("readPdfButton");
   if(!file){alert("PDF فائل منتخب کریں");return}
   if(file.size>30*1024*1024){
-    alert("فائل 30 MB سے بڑی ہے۔ چھوٹی PDF منتخب کریں۔");return;
+    alert("فائل 30 MB سے بڑی ہے۔ چھوٹی PDF منتخب کریں۔");
+    return;
   }
   button.disabled=true;
   button.textContent="PDF پڑھی جا رہی ہے۔۔۔";
@@ -839,7 +772,8 @@ async function extractOfficialBook(book){
 
 function sendExtractedText(){
   if(!uploadedPDFText){
-    alert("پہلے PDF سے متن نکالیں۔");return;
+    alert("پہلے PDF سے متن نکالیں۔");
+    return;
   }
   document.getElementById("materialSource").value=uploadedPDFText;
   updateSourceCount();
@@ -852,7 +786,7 @@ function updateSourceCount(){
 }
 document.getElementById("materialSource").addEventListener("input",updateSourceCount);
 
-/* Cloudflare AI */
+/* AI سے نوٹس اور سوالات */
 async function generateMaterial(){
   const type=document.getElementById("materialType").value;
   const subject=document.getElementById("materialSubject").value.trim();
@@ -894,7 +828,8 @@ async function generateMaterial(){
     });
 
     let data;
-    try{data=await response.json()}catch(e){throw new Error("سرور کا جواب درست JSON نہیں ہے۔")}
+    try{data=await response.json()}
+    catch(e){throw new Error("سرور کا جواب درست JSON نہیں ہے۔")}
     if(!response.ok||!data.success)throw new Error(data.error||data.detail||"AI request failed");
     if(!data.result)throw new Error("AI کی طرف سے خالی جواب موصول ہوا۔");
 
@@ -916,15 +851,6 @@ async function generateMaterial(){
   }
 }
 
-function showScheme(){
-  const board=document.getElementById("schemeBoard").value;
-  const cls=document.getElementById("schemeClass").selectedOptions[0].text;
-  const sub=document.getElementById("schemeSubject").value;
-  document.getElementById("schemeOutput").textContent=
-    "جماعت: "+cls+"\nبورڈ: "+board+"\nمضمون: "+sub+
-    "\n\nاسکیم کا مستند ڈیٹا ابھی شامل نہیں۔ سرکاری اسکیم کی تصدیق کے بعد ہی اصل تقسیم دکھائی جائے گی۔";
-}
-
 /* پیپر میکر */
 function makePaper(){
   const subject=document.getElementById("paperSubject").value||"____________";
@@ -944,7 +870,7 @@ function makePaper(){
     <p>جماعت: ${escapeHTML(cls)} | مضمون: ${escapeHTML(subject)}</p>
     <p>وقت: ${escapeHTML(time)} | کل نمبر: ${escapeHTML(marks)}</p>
     <hr>
-    <h3>حصہ اول: کثیر الانتخابی سوالات</h3>
+    <h3>حصہ اول: کثیرالانتخابی سوالات</h3>
     <p>${escapeHTML(mcq).replace(/\n/g,"<br>")}</p>
     <h3>حصہ دوم: مختصر سوالات</h3>
     <p>${escapeHTML(short).replace(/\n/g,"<br>")}</p>
@@ -959,27 +885,8 @@ function escapeHTML(s){
  }[c]));
 }
 
-/* ببل شیٹ */
-function makeBubble(){
-  const count=Math.min(100,Math.max(1,Number(document.getElementById("bubbleCount").value)||50));
-  let html=`<img class="watermark watermarkImg" src="${logoData||""}">
-  <div class="paper-content">
-  <h2>The Risen High School</h2><h3>MCQs جوابی شیٹ</h3>
-  <p>نام: ${escapeHTML(document.getElementById("studentName").value)}
-  رول نمبر: ${escapeHTML(document.getElementById("rollNumber").value)}</p>
-  <p>جماعت: ${escapeHTML(document.getElementById("bubbleClass").selectedOptions[0].text)}
-  مضمون: ${escapeHTML(document.getElementById("bubbleSubject").value)}</p>
-  <table><tr><th>نمبر</th><th>A</th><th>B</th><th>C</th><th>D</th></tr>`;
-  for(let i=1;i<=count;i++){
-    html+=`<tr><td>${i}</td><td>◯</td><td>◯</td><td>◯</td><td>◯</td></tr>`;
-  }
-  html+="</table></div>";
-  document.getElementById("bubbleOutput").innerHTML=html;
-}
-
 /* پرنٹ */
 function printPaper(){printSection("paper")}
-function printBubble(){printSection("bubble")}
 function printSection(id){
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("printing"));
   document.getElementById(id).classList.add("printing");
@@ -995,7 +902,8 @@ function printOutput(id){
   @font-face{font-family:Jameel;src:url('https://cdn.jsdelivr.net/gh/tariq-abdullah/urdu-web-font-CDN/JameelNooriNastaleeq.woff')}
   body{font-family:Jameel,Arial;padding:25px;white-space:pre-wrap}
   </style></head><body>${content}</body></html>`);
-  w.document.close();w.print();
+  w.document.close();
+  w.print();
 }
 
 /* لوگو */
@@ -1010,19 +918,19 @@ function setLogo(){
 setLogo();
 
 document.getElementById("logoInput").addEventListener("change",e=>{
-  const f=e.target.files[0];if(!f)return;
+  const f=e.target.files[0];
+  if(!f)return;
   const r=new FileReader();
   r.onload=()=>{
     logoData=r.result;
-    try{localStorage.setItem("risenLogo",logoData)}catch(err){
-      alert("لوگو بہت بڑا ہے۔ چھوٹی تصویر منتخب کریں۔");
-    }
+    try{localStorage.setItem("risenLogo",logoData)}
+    catch(err){alert("لوگو بہت بڑا ہے۔ چھوٹی تصویر منتخب کریں۔")}
     setLogo();
   };
   r.readAsDataURL(f);
 });
 
-/* ابتدائی زبان سوئچ */
+/* زبان کا بٹن */
 function toggleLanguage(){
   english=!english;
   document.getElementById("langButton").textContent=english?"اردو":"English";
@@ -1033,7 +941,7 @@ function toggleLanguage(){
     "اردو لے آؤٹ منتخب ہوگیا۔");
 }
 
-/* ایپ شروع ہونے پر کتابوں کی فہرست حاصل کریں */
+/* آغاز */
 loadBooks();
 </script>
 </body>
