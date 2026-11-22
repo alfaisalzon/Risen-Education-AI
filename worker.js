@@ -1,3 +1,4 @@
+
 const PECTAA_BOOKS_URL =
   "https://pectaa.edu.pk/curriculum-compliance/";
 
@@ -5,7 +6,9 @@ const PECTAA_FALLBACK_URL =
   "https://pectaa.edu.pk/books-and-publications/";
 
 const MODEL = "@cf/meta/llama-3.1-8b-instruct";
-const WORKER_VERSION = "RISEN-BOOKS-V2-2026-11-22";
+const WORKER_VERSION = "RISEN-BOOKS-V3-2026-11-22";
+
+const MAX_PDF_SIZE = 30 * 1024 * 1024;
 
 export default {
   async fetch(request, env) {
@@ -40,6 +43,240 @@ export default {
         version: WORKER_VERSION,
         message: "Worker is running."
       });
+    }
+
+    // PDF PROXY
+    // Only approved education websites and Google Drive are allowed.
+    if (path === "/api/pdf" && request.method === "GET") {
+      try {
+        const suppliedUrl = url.searchParams.get("url");
+
+        if (!suppliedUrl) {
+          return respond({
+            success: false,
+            error: "PDF URL is required."
+          }, 400);
+        }
+
+        let pdfUrl;
+
+        try {
+          pdfUrl = new URL(suppliedUrl);
+        } catch {
+          return respond({
+            success: false,
+            error: "Invalid PDF URL."
+          }, 400);
+        }
+
+        const inputHosts = [
+          "pectaa.edu.pk",
+          "www.pectaa.edu.pk",
+          "pctb.punjab.gov.pk",
+          "drive.google.com",
+          "drive.usercontent.google.com"
+        ];
+
+        function isAllowedInputHost(host) {
+          return inputHosts.includes(host.toLowerCase());
+        }
+
+        if (
+          pdfUrl.protocol !== "https:" ||
+          !isAllowedInputHost(pdfUrl.hostname)
+        ) {
+          return respond({
+            success: false,
+            error: "This PDF website is not allowed."
+          }, 403);
+        }
+
+        // Convert common Google Drive sharing links to download links.
+        if (pdfUrl.hostname === "drive.google.com") {
+          let fileId = "";
+
+          const pathMatch = pdfUrl.pathname.match(
+            /\/file\/d\/([a-zA-Z0-9_-]+)/
+          );
+
+          if (pathMatch) {
+            fileId = pathMatch[1];
+          } else {
+            fileId = pdfUrl.searchParams.get("id") || "";
+          }
+
+          if (fileId) {
+            pdfUrl = new URL("https://drive.google.com/uc");
+            pdfUrl.searchParams.set("export", "download");
+            pdfUrl.searchParams.set("id", fileId);
+          }
+        }
+
+        // Validate every redirect to prevent this route becoming an open proxy.
+        function isAllowedRedirectHost(host) {
+          const allowed = [
+            "pectaa.edu.pk",
+            "www.pectaa.edu.pk",
+            "pctb.punjab.gov.pk",
+            "drive.google.com",
+            "drive.usercontent.google.com",
+            "docs.googleusercontent.com"
+          ];
+
+          return (
+            allowed.includes(host.toLowerCase()) ||
+            host.toLowerCase().endsWith(".googleusercontent.com")
+          );
+        }
+
+        let currentUrl = pdfUrl;
+        let pdfResponse = null;
+
+        for (let i = 0; i < 6; i++) {
+          if (
+            currentUrl.protocol !== "https:" ||
+            !isAllowedRedirectHost(currentUrl.hostname)
+          ) {
+            return respond({
+              success: false,
+              error: "PDF redirect destination is not allowed."
+            }, 403);
+          }
+
+          const result = await fetch(currentUrl.toString(), {
+            method: "GET",
+            redirect: "manual",
+            headers: {
+              "Accept": "application/pdf,application/octet-stream,*/*",
+              "User-Agent": "Mozilla/5.0 RisenEducationAI"
+            }
+          });
+
+          if (
+            result.status >= 300 &&
+            result.status < 400
+          ) {
+            const location = result.headers.get("Location");
+
+            if (!location) {
+              return respond({
+                success: false,
+                error: "PDF redirect did not provide a destination."
+              }, 502);
+            }
+
+            currentUrl = new URL(location, currentUrl);
+            continue;
+          }
+
+          pdfResponse = result;
+          break;
+        }
+
+        if (!pdfResponse) {
+          return respond({
+            success: false,
+            error: "Too many PDF redirects."
+          }, 502);
+        }
+
+        if (!pdfResponse.ok) {
+          return respond({
+            success: false,
+            error: "PDF could not be downloaded.",
+            httpStatus: pdfResponse.status
+          }, 502);
+        }
+
+        const contentType = (
+          pdfResponse.headers.get("Content-Type") || ""
+        ).toLowerCase();
+
+        const contentLength = Number(
+          pdfResponse.headers.get("Content-Length") || 0
+        );
+
+        if (contentLength > MAX_PDF_SIZE) {
+          return respond({
+            success: false,
+            error: "PDF is too large. Maximum allowed size is 30 MB."
+          }, 413);
+        }
+
+        // Read the response with a strict size limit.
+        if (!pdfResponse.body) {
+          return respond({
+            success: false,
+            error: "The PDF file is empty."
+          }, 502);
+        }
+
+        const reader = pdfResponse.body.getReader();
+        const chunks = [];
+        let totalBytes = 0;
+
+        while (true) {
+          const part = await reader.read();
+
+          if (part.done) break;
+
+          totalBytes += part.value.byteLength;
+
+          if (totalBytes > MAX_PDF_SIZE) {
+            await reader.cancel();
+
+            return respond({
+              success: false,
+              error: "PDF is too large. Maximum allowed size is 30 MB."
+            }, 413);
+          }
+
+          chunks.push(part.value);
+        }
+
+        const fileBytes = new Uint8Array(totalBytes);
+        let offset = 0;
+
+        for (const chunk of chunks) {
+          fileBytes.set(chunk, offset);
+          offset += chunk.byteLength;
+        }
+
+        // Confirm that the downloaded file is really a PDF.
+        const signature = new TextDecoder().decode(
+          fileBytes.slice(0, 5)
+        );
+
+        if (
+          signature !== "%PDF-" ||
+          contentType.includes("text/html")
+        ) {
+          return respond({
+            success: false,
+            error:
+              "The link did not return a direct PDF file. Google Drive confirmation pages or protected files may not work."
+          }, 422);
+        }
+
+        return new Response(fileBytes, {
+          status: 200,
+          headers: {
+            ...cors,
+            "Content-Type": "application/pdf",
+            "Content-Length": String(totalBytes),
+            "Content-Disposition": "inline; filename=\"risen-book.pdf\"",
+            "Cache-Control": "public, max-age=3600",
+            "X-Content-Type-Options": "nosniff"
+          }
+        });
+
+      } catch (error) {
+        return respond({
+          success: false,
+          error: "PDF request failed.",
+          detail: String(error.message || error)
+        }, 500);
+      }
     }
 
     // OFFICIAL BOOK CATALOG
@@ -106,7 +343,6 @@ export default {
         function identifyGrade(title) {
           const t = title.toLowerCase();
 
-          // Combined classes
           if (
             /class\s*(ix|9)\s*[-–]\s*(x|10)/i.test(t) ||
             /grade\s*9\s*[-–]\s*10/i.test(t) ||
@@ -119,7 +355,6 @@ export default {
             /\b11\s*[-–]\s*12\b/.test(t)
           ) return "11-12";
 
-          // Class 9
           if (
             /\bclass\s*ix\b/.test(t) ||
             /\bgrade\s*9\b/.test(t) ||
@@ -128,7 +363,6 @@ export default {
             /\b(?:physics|chemistry|biology|computer|math|mathematics|urdu|english)\s*9\b/.test(t)
           ) return "9";
 
-          // Class 10
           if (
             /\bclass\s*x\b/.test(t) ||
             /\bgrade\s*10\b/.test(t) ||
@@ -137,7 +371,6 @@ export default {
             /\b(?:physics|chemistry|biology|computer|math|mathematics|urdu|english)\s*10\b/.test(t)
           ) return "10";
 
-          // Class 11
           if (
             /\bclass\s*xi\b/.test(t) ||
             /\bgrade\s*11\b/.test(t) ||
@@ -146,7 +379,6 @@ export default {
             /\b(?:physics|chemistry|biology|computer|math|mathematics|urdu|english)\s*11\b/.test(t)
           ) return "11";
 
-          // Class 12
           if (
             /\bclass\s*xii\b/.test(t) ||
             /\bgrade\s*12\b/.test(t) ||
@@ -307,14 +539,12 @@ export default {
           });
         }
 
-        // Remove duplicates
         const unique = [
           ...new Map(
             books.map(book => [book.url, book])
           ).values()
         ];
 
-        // Filters
         const gradeFilter = url.searchParams.get("grade");
         const mediumFilter = url.searchParams.get("medium");
         const typeFilter = url.searchParams.get("type");
